@@ -34,6 +34,8 @@
     tree-sitter
     luarocks
 
+    wl-clipboard
+
     docker
     docker-compose
   ];

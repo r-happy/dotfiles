@@ -4,11 +4,11 @@ vim.opt.cursorline = true
 
 -- indent
 vim.opt.smarttab = true
-vim.opt.tabstop = 4
+vim.opt.tabstop = 2
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.copyindent = true
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 2
 vim.opt.shiftround = true
 vim.opt.expandtab = true
 
@@ -22,37 +22,33 @@ vim.opt.autoread = true
 vim.opt.wrap = false
 vim.opt.wildmenu = true
 
--- clipboard
-vim.opt.clipboard = "unnamedplus"
--- open
 if vim.fn.has("wsl") == 1 then
-    vim.ui.open = function(path)
-        local scrubbed_path = path:gsub("^file://", "")
+  vim.ui.open = function(path)
+    local scrubbed_path = path:gsub("^file://", "")
+    local cmd = "wslpath -w " .. vim.fn.shellescape(scrubbed_path)
+    local handle = io.popen(cmd)
+    local win_path = handle:read("*a"):gsub("%s+$", "")
+    handle:close()
 
-        local cmd = "wslpath -w " .. vim.fn.shellescape(scrubbed_path)
-        local handle = io.popen(cmd)
-        local win_path = handle:read("*a"):gsub("%s+$", "")
-        handle:close()
-
-        if win_path ~= "" then
-            vim.fn.jobstart({ "explorer.exe", win_path })
-        end
+    if win_path ~= "" then
+      vim.fn.jobstart({ "explorer.exe", win_path })
     end
-
-
-    vim.g.clipboard = {
-        name = 'win32yank-wsl',
-        copy = {
-            ["+"] = 'win32yank.exe -i --crlf',
-            ["*"] = 'win32yank.exe -i --crlf',
-        },
-        paste = {
-            ["+"] = 'win32yank.exe -o --lf',
-            ["*"] = 'win32yank.exe -o --lf',
-        },
-        cache_enabled = 0,
-    }
+  end
 end
+
+vim.g.clipboard = {
+  name = 'wl-clipboard',
+  copy = {
+    ["+"] = 'wl-copy',
+    ["*"] = 'wl-copy',
+  },
+  paste = {
+    ["+"] = 'wl-paste',
+    ["*"] = 'wl-paste',
+  },
+  cache_enabled = 0,
+}
+vim.opt.clipboard = "unnamedplus"
 
 -- color
 vim.opt.termguicolors = true
@@ -73,26 +69,26 @@ vim.cmd("colorscheme kanagawa-wave")
 
 -- plugins
 local disabled_builtins = {
-    "netrw",
-    "netrwPlugin",
-    "netrwSettings",
-    "netrwFileHandlers",
-    "gzip",
-    "zip",
-    "zipPlugin",
-    "tar",
-    "tarPlugin",
-    "getscript",
-    "getscriptPlugin",
-    "vimball",
-    "vimballPlugin",
-    "2html_plugin",
-    "logipat",
-    "rrhelper",
-    "spellfile_plugin",
-    "matchit",
+  "netrw",
+  "netrwPlugin",
+  "netrwSettings",
+  "netrwFileHandlers",
+  "gzip",
+  "zip",
+  "zipPlugin",
+  "tar",
+  "tarPlugin",
+  "getscript",
+  "getscriptPlugin",
+  "vimball",
+  "vimballPlugin",
+  "2html_plugin",
+  "logipat",
+  "rrhelper",
+  "spellfile_plugin",
+  "matchit",
 }
 
 for _, plugin in ipairs(disabled_builtins) do
-    vim.g["loaded_" .. plugin] = 1
+  vim.g["loaded_" .. plugin] = 1
 end
