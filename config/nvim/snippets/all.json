@@ -1,0 +1,7 @@
+{
+    "dateYMD": {
+        "prefix": "dateYMD",
+        "body": "${CURRENT_YEAR}/${CURRENT_MONTH}/${CURRENT_DATE}/",
+        "description": "Insert YYYY/MM/DD"
+    }
+}
