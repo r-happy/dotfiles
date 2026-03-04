@@ -36,18 +36,19 @@ if vim.fn.has("wsl") == 1 then
   end
 end
 
-vim.g.clipboard = {
-  name = 'wl-clipboard',
-  copy = {
-    ["+"] = 'wl-copy',
-    ["*"] = 'wl-copy',
-  },
-  paste = {
-    ["+"] = 'wl-paste',
-    ["*"] = 'wl-paste',
-  },
-  cache_enabled = 0,
-}
+-- vim.g.clipboard = {
+--   name = 'wl-clipboard',
+--   copy = {
+--     ["+"] = 'wl-copy',
+--     ["*"] = 'wl-copy',
+--   },
+--   paste = {
+--     ["+"] = 'wl-paste',
+--     ["*"] = 'wl-paste',
+--   },
+--   cache_enabled = 0,
+-- }
+--
 vim.opt.clipboard = "unnamedplus"
 
 -- color

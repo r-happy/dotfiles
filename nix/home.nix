@@ -52,6 +52,9 @@
         name = "r-happy";
         email = "106812882+r-happy@users.noreply.github.com";
       };
+      ghq = {
+        root = "~/github";
+      };
     };
   };
 
