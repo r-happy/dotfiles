@@ -119,9 +119,8 @@
           };
         };
         extraConfig = ''
-          set -g @ukiyo-theme "kanagawa/wave"
+          set -g @ukiyo-theme "kanagawa/dragon"
           set -g @ukiyo-show-powerline true
-          set -g @ukiyo-background "default"
         '';
       }
     ];
