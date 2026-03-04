@@ -36,6 +36,9 @@
 
     wl-clipboard
 
+    ghq
+    fzf
+
     docker
     docker-compose
   ];
@@ -62,10 +65,21 @@
         name = "pure";
         src = pkgs.fishPlugins.pure.src;
       }
+      {
+        name = "fish-ghq-fzf";
+        src = pkgs.fetchFromGitHub {
+          owner = "yuys13";
+          repo = "fish-ghq-fzf";
+          rev = "main";
+          hash = "sha256-64y5nTQsdz8Qyn0VjEtfI4FvTMjF5XVYW7yTsrkIS30=";
+        };
+      }
     ];
-    shellInit = ''
+    interactiveShellInit = ''
       fish_add_path ~/.nix-profile/bin
       fish_add_path /nix/var/nix/profiles/default/bin
+
+      ${builtins.readFile ../config/fish/config.fish}
     '';
   };
 
