@@ -29,6 +29,7 @@
     python3
 
     clang
+    unzip
     gnumake
 
     tree-sitter
