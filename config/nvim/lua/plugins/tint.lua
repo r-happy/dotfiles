@@ -1,5 +1,5 @@
 return {
-  "sunjon/shade.nvim",
+  "levouh/tint.nvim",
   event = "VeryLazy",
   opts = {},
 }
