@@ -9,6 +9,7 @@
   home.username = "rhappy";
   home.homeDirectory = "/home/rhappy";
   home.stateVersion = "23.11";
+  nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     fastfetch
@@ -27,6 +28,7 @@
     bun
     pnpm
     python3
+    opencode
 
     clang
     unzip
@@ -34,6 +36,7 @@
 
     tree-sitter
     luarocks
+    claude-code
 
     wl-clipboard
 
