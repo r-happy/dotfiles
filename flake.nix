@@ -8,10 +8,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    claude-code-nix.url = "github:sadjow/claude-code-nix";
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    { nixpkgs, home-manager, claude-code-nix, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -19,7 +21,10 @@
     {
       homeConfigurations."rhappy" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./nix/home.nix ];
+        modules = [
+          ./nix/home.nix
+          { nixpkgs.overlays = [ claude-code-nix.overlays.default ]; }
+        ];
       };
 
       apps.${system} = {

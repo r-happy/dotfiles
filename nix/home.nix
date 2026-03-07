@@ -1,141 +1,17 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, ... }:
 
 {
+  imports = [
+    ./packages.nix
+    ./shell.nix
+    ./git.nix
+    ./editor.nix
+    ./tmux.nix
+  ];
+
   home.username = "rhappy";
   home.homeDirectory = "/home/rhappy";
   home.stateVersion = "23.11";
   nixpkgs.config.allowUnfree = true;
-
-  home.packages = with pkgs; [
-    fastfetch
-    ripgrep
-    fd
-    bat
-    chafa
-
-    rustc
-    cargo
-    rustfmt
-    clippy
-
-    go
-    nodejs
-    bun
-    pnpm
-    python3
-    opencode
-
-    clang
-    unzip
-    gnumake
-
-    tree-sitter
-    luarocks
-    claude-code
-
-    wl-clipboard
-
-    ghq
-    fzf
-
-    docker
-    docker-compose
-  ];
-
   programs.home-manager.enable = true;
-
-  programs.git = {
-    enable = true;
-    settings = {
-      user = {
-        name = "r-happy";
-        email = "106812882+r-happy@users.noreply.github.com";
-      };
-      ghq = {
-        root = "~/github";
-      };
-    };
-  };
-
-  programs.gh.enable = true;
-  programs.lazygit.enable = true;
-
-  programs.fish = {
-    enable = true;
-    plugins = [
-      {
-        name = "pure";
-        src = pkgs.fishPlugins.pure.src;
-      }
-      {
-        name = "fish-ghq-fzf";
-        src = pkgs.fetchFromGitHub {
-          owner = "yuys13";
-          repo = "fish-ghq-fzf";
-          rev = "main";
-          hash = "sha256-64y5nTQsdz8Qyn0VjEtfI4FvTMjF5XVYW7yTsrkIS30=";
-        };
-      }
-    ];
-    interactiveShellInit = ''
-      fish_add_path ~/.nix-profile/bin
-      fish_add_path /nix/var/nix/profiles/default/bin
-
-      ${builtins.readFile ../config/fish/config.fish}
-    '';
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-  };
-
-  programs.tmux = {
-    enable = true;
-    shell = "${pkgs.fish}/bin/fish";
-    prefix = "C-t";
-    keyMode = "vi";
-    mouse = true;
-    terminal = "tmux-256color";
-
-    plugins = with pkgs.tmuxPlugins; [
-      sensible
-      pain-control
-      logging
-      yank
-      {
-        plugin = mkTmuxPlugin {
-          pluginName = "ukiyo";
-          version = "unstable";
-          rtp = "ukiyo.tmux";
-          src = pkgs.fetchFromGitHub {
-            owner = "Nybkox";
-            repo = "tmux-ukiyo";
-            rev = "master";
-            hash = "sha256-jOcGNKb8QrIgT7l3D3RiJOPIC9JU1rOy8tk0x5ULrdc=";
-          };
-        };
-        extraConfig = ''
-          set -g @ukiyo-theme "kanagawa/dragon"
-          set -g @ukiyo-show-powerline true
-        '';
-      }
-    ];
-
-    extraConfig = builtins.readFile ../config/tmux/tmux.conf;
-  };
-
-  home.file = {
-    ".config/nvim" = {
-      source = ../config/nvim;
-      recursive = true;
-    };
-  };
 }
