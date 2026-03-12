@@ -66,7 +66,7 @@ vim.opt.swapfile = false
 vim.opt.showcmd = true
 
 -- color
-vim.cmd("colorscheme kanagawa-dragon")
+vim.cmd("colorscheme tawny")
 
 -- plugins
 local disabled_builtins = {

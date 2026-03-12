@@ -106,7 +106,7 @@ ins_left {
 ins_left {
   -- mode component
   function()
-    return ''
+    return '🐶'
   end,
   color = function()
     -- auto change color according to neovims mode
@@ -172,26 +172,6 @@ ins_left {
   end,
 }
 
-ins_left {
-  -- Lsp server name .
-  function()
-    local msg = 'No Active Lsp'
-    local buf_ft = vim.api.nvim_get_option_value('filetype', { buf = 0 })
-    local clients = vim.lsp.get_clients()
-    if next(clients) == nil then
-      return msg
-    end
-    for _, client in ipairs(clients) do
-      local filetypes = client.config.filetypes
-      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-        return client.name
-      end
-    end
-    return msg
-  end,
-  icon = ' LSP:',
-  color = { fg = colors.fg, gui = 'bold' },
-}
 
 -- Add components to right sections
 ins_right {
@@ -241,12 +221,12 @@ return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     event = "VeryLazy",
-    -- opts = {
-    -- options = {
-    -- component_separators = { left = '', right = ''},
-    -- section_separators = { left = '', right = ''},
-    -- }
-    -- }
-    opts = config
+    opts = {
+      -- options = {
+      -- component_separators = { left = '', right = '' },
+      -- section_separators = { left = '', right = '' },
+      -- }
+    }
+    -- opts = config
   }
 }
