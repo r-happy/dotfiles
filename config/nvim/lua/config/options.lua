@@ -14,6 +14,7 @@ vim.opt.expandtab = true
 
 -- number
 vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- autoread
 vim.opt.autoread = true

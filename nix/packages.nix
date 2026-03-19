@@ -35,5 +35,38 @@
 
     docker
     docker-compose
+
+    wget
+
+    # CTF tools
+    # 解析・フォレンジック
+    binwalk
+    exiftool
+    foremost
+    radare2
+
+    # ネットワーク
+    nmap
+    wireshark-cli
+    tcpdump
+    netcat-gnu
+
+    # 暗号・ハッシュ
+    hashcat
+    john
+
+    # バイナリ解析・PWN
+    gdb
+    patchelf
+    pwntools
+    strace
+    ltrace
+
+    # Web
+    sqlmap
+
+    # ステガノグラフィ
+    steghide
+    zsteg
   ];
 }

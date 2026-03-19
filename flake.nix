@@ -13,17 +13,24 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, claude-code-nix, ... }:
+    {
+      nixpkgs,
+      home-manager,
+      claude-code-nix,
+      ...
+    }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ claude-code-nix.overlays.default ];
+      };
     in
     {
       homeConfigurations."rhappy" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./nix/home.nix
-          { nixpkgs.overlays = [ claude-code-nix.overlays.default ]; }
         ];
       };
 
