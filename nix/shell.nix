@@ -17,6 +17,15 @@
           hash = "sha256-64y5nTQsdz8Qyn0VjEtfI4FvTMjF5XVYW7yTsrkIS30=";
         };
       }
+      {
+        name = "fish-autols";
+        src = pkgs.fetchFromGitHub {
+          owner = "yuys13";
+          repo = "fish-autols";
+          rev = "main";
+          hash = "sha256-5yb6UjPu+QFsR+fe1rzYgSUczQ6olbFgILUQNTGvnf8=";
+        };
+      }
     ];
     interactiveShellInit = ''
       fish_add_path ~/.nix-profile/bin

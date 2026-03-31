@@ -44,6 +44,7 @@
     exiftool
     foremost
     radare2
+    xxd
 
     # ネットワーク
     nmap
