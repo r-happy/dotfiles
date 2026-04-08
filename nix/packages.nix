@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, codex-cli-nix, ... }:
 
 {
   home.packages = with pkgs; [
@@ -19,6 +19,7 @@
     pnpm
     python3
     opencode
+    uv
 
     clang
     unzip
@@ -27,6 +28,7 @@
     tree-sitter
     luarocks
     claude-code
+    codex-cli-nix.packages.${pkgs.system}.default
 
     wl-clipboard
 
@@ -35,8 +37,16 @@
 
     docker
     docker-compose
+    openssh
 
     wget
+    presenterm
+    python3Packages.weasyprint
+
+    # PDF utilities for text extraction and OCR
+    poppler-utils
+    tesseract
+    ocrmypdf
 
     # CTF tools
     # 解析・フォレンジック
