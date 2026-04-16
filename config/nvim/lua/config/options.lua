@@ -1,5 +1,5 @@
 -- cursor
--- vim.opt.cursorcolumn = true
+vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 
 -- indent
