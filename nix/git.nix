@@ -12,6 +12,7 @@
         root = "~/github";
       };
     };
+    signing.format = null;
   };
 
   programs.gh.enable = true;

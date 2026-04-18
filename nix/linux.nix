@@ -2,7 +2,9 @@
 
 {
   imports = [
-    ./packages/shared.nix
+    ./shared.nix
     ./packages/linux.nix
   ];
+
+  home.homeDirectory = "/home/rhappy";
 }

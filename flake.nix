@@ -22,32 +22,73 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          claude-code-nix.overlays.default
-        ];
-      };
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          overlays = [
+            claude-code-nix.overlays.default
+          ];
+        };
+
+      mkHome =
+        {
+          system,
+          module,
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = mkPkgs system;
+          extraSpecialArgs = {
+            inherit codex-cli-nix;
+          };
+          modules = [
+            module
+          ];
+        };
+
+      linuxSystem = "x86_64-linux";
+      darwinSystem = "aarch64-darwin";
+      linuxPkgs = mkPkgs linuxSystem;
+      darwinPkgs = mkPkgs darwinSystem;
     in
     {
-      homeConfigurations."rhappy" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {
-          inherit codex-cli-nix;
+      homeConfigurations = {
+        # Backward-compatible default for existing Linux usage.
+        "rhappy" = mkHome {
+          system = linuxSystem;
+          module = ./nix/linux.nix;
         };
-        modules = [
-          ./nix/home.nix
-        ];
+
+        "rhappy-linux" = mkHome {
+          system = linuxSystem;
+          module = ./nix/linux.nix;
+        };
+
+        "rhappy-darwin" = mkHome {
+          system = darwinSystem;
+          module = ./nix/darwin.nix;
+        };
       };
 
-      apps.${system} = {
+      apps.${linuxSystem} = {
         switch = {
           type = "app";
           program = builtins.toString (
-            pkgs.writeShellScript "switch" ''
+            linuxPkgs.writeShellScript "switch-linux" ''
               git -C ~/dotfiles add .
-              nix run home-manager/master -- switch --flake ~/dotfiles/#rhappy
+              nix run home-manager/master -- switch --flake ~/dotfiles/#rhappy-linux
+            ''
+          );
+        };
+      };
+
+      apps.${darwinSystem} = {
+        switch = {
+          type = "app";
+          program = builtins.toString (
+            darwinPkgs.writeShellScript "switch-darwin" ''
+              git -C ~/dotfiles add .
+              nix run home-manager/master -- switch --flake ~/dotfiles/#rhappy-darwin
             ''
           );
         };
