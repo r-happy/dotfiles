@@ -4,7 +4,9 @@ return {
   },
   {
     "r-happy/tawny.nvim",
-    opts = {}
+    opts = {
+      transparent = true
+    }
   },
   -- {
   --   dir = "~/github/tawny.nvim",
