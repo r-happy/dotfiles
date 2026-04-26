@@ -28,14 +28,18 @@
       ...
     }:
     let
+      specialArgs = {
+        inherit codex-cli-nix;
+      };
+
       mkPkgs =
         system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [
-            claude-code-nix.overlays.default
-          ];
+          overlays = import ./nix/overlays.nix {
+            inherit claude-code-nix;
+          };
         };
 
       mkHome =
@@ -45,12 +49,19 @@
         }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = mkPkgs system;
-          extraSpecialArgs = {
-            inherit codex-cli-nix;
-          };
+          extraSpecialArgs = specialArgs;
           modules = [
             module
           ];
+        };
+
+      mkSwitchApp =
+        pkgs: name: script:
+        {
+          type = "app";
+          program = builtins.toString (
+            pkgs.writeShellScript name script
+          );
         };
 
       linuxSystem = "x86_64-linux";
@@ -77,9 +88,7 @@
         system = darwinSystem;
         pkgs = darwinPkgs;
 
-        specialArgs = {
-          inherit codex-cli-nix;
-        };
+        inherit specialArgs;
 
         modules = [
           ./nix/system-darwin.nix
@@ -88,36 +97,24 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit codex-cli-nix;
-            };
+            home-manager.extraSpecialArgs = specialArgs;
             home-manager.users.rhappy = import ./nix/darwin.nix;
           }
         ];
       };
 
       apps.${linuxSystem} = {
-        switch = {
-          type = "app";
-          program = builtins.toString (
-            linuxPkgs.writeShellScript "switch-linux" ''
-              git -C ~/dotfiles add .
-              nix run home-manager/master -- switch --flake ~/dotfiles#rhappy-linux
-            ''
-          );
-        };
+        switch = mkSwitchApp linuxPkgs "switch-linux" ''
+          git -C ~/dotfiles add .
+          nix run home-manager/master -- switch --flake ~/dotfiles#rhappy-linux
+        '';
       };
 
       apps.${darwinSystem} = {
-        switch = {
-        type = "app";
-        program = builtins.toString (
-          darwinPkgs.writeShellScript "switch-darwin" ''
-            git -C ~/dotfiles add .
-            sudo -H nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake /Users/rhappy/dotfiles#${darwinHost}
-          ''
-        );
+        switch = mkSwitchApp darwinPkgs "switch-darwin" ''
+          git -C ~/dotfiles add .
+          sudo -H nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake /Users/rhappy/dotfiles#${darwinHost}
+        '';
       };
     };
-  };
 }

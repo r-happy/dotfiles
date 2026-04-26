@@ -78,15 +78,16 @@ vim.keymap.set(
 )
 
 -- terminal
-vim.keymap.set(
-  { "n", "t" },
-  "<C-\\>",
-  function()
-    Snacks.terminal.toggle(nil, {
-      win = { position = "bottom" }
-    })
-  end, { desc = "Snacks: Toggle Main Terminal" }
-)
+local toggle_terminal = function()
+  Snacks.terminal.toggle(nil, {
+    win = { position = "bottom" }
+  })
+end
+
+vim.keymap.set({ "n", "t" }, "<C-\\>", toggle_terminal, { desc = "Snacks: Toggle Main Terminal" })
+vim.keymap.set({ "n", "t" }, "<C-¥>", toggle_terminal, { desc = "Snacks: Toggle Main Terminal" })
+vim.keymap.set({ "n", "t" }, "<C-@>", toggle_terminal, { desc = "Snacks: Toggle Main Terminal" })
+vim.keymap.set({ "n", "t" }, "<Nul>", toggle_terminal, { desc = "Snacks: Toggle Main Terminal" })
 
 -- markdown
 vim.keymap.set('v', '<leader>b', [[:s/\s*\\*$/ \\/ <CR>]], { desc = 'Add MD line breaks' })

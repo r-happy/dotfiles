@@ -1,7 +1,14 @@
-{ pkgs, codex-cli-nix, ... }:
-
 {
-  home.packages = with pkgs; [
+  pkgs,
+  lib,
+  codex-cli-nix,
+  ...
+}:
+
+let
+  codexCli = codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
+  commonPackages = with pkgs; [
     fastfetch
     ripgrep
     fd
@@ -28,7 +35,7 @@
     tree-sitter
     luarocks
     claude-code
-    codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    codexCli
 
     ghq
     fzf
@@ -66,7 +73,15 @@
     sqlmap
 
     # ステガノグラフィ
-    steghide
     zsteg
   ];
+
+  linuxOnlyPackages = with pkgs; [
+    steghide
+  ];
+in
+{
+  home.packages =
+    commonPackages
+    ++ lib.optionals pkgs.stdenv.isLinux linuxOnlyPackages;
 }
