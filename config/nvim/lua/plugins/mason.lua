@@ -1,11 +1,3 @@
--- htmlangularファイルにhtml LSPもアタッチする（補完のみ・フォーマットはprettierに任せる）
-vim.lsp.config('html', {
-    filetypes = { 'html', 'htmlangular' },
-    init_options = {
-        provideFormatter = false,
-    },
-})
-
 return {
     {
         "mason-org/mason.nvim",
@@ -17,7 +9,16 @@ return {
         "mason-org/mason-lspconfig.nvim",
         event = { "BufReadPre", "BufNewFile" },
         opts = {
-            ensure_installed = { "lua_ls", "html" },
+            ensure_installed = {
+                "basedpyright",
+                "clangd",
+                "gopls",
+                "html",
+                "lua_ls",
+                "nil_ls",
+                "ruff",
+                "rust_analyzer",
+            },
             automatic_enable = true,
         },
         dependencies = {
