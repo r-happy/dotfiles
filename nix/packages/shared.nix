@@ -28,7 +28,12 @@ let
     opencode
     uv
 
+    # C/C++ development
     clang
+    clang-tools
+    cmake
+    ninja
+    lldb
     unzip
     gnumake
 
