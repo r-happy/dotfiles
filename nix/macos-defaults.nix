@@ -20,15 +20,14 @@
     dock = {
       autohide = false;
       expose-group-apps = false;
-      largesize = 73;
-      magnification = true;
+      magnification = false;
       minimize-to-application = false;
       mru-spaces = false;
       orientation = "bottom";
       show-recents = false;
       showAppExposeGestureEnabled = false;
       showMissionControlGestureEnabled = true;
-      tilesize = 24;
+      tilesize = 32;
       wvous-br-corner = 14;
     };
 

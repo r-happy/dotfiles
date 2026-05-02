@@ -7,6 +7,9 @@
 
 let
   codexCli = codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  gpp = pkgs.writeShellScriptBin "g++" ''
+    exec ${pkgs.gcc}/bin/g++ "$@"
+  '';
 
   commonPackages = with pkgs; [
     fastfetch
@@ -31,6 +34,7 @@ let
     # C/C++ development
     clang
     clang-tools
+    gpp
     cmake
     ninja
     lldb
