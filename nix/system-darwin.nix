@@ -9,6 +9,11 @@
 
   environment.shells = with pkgs; [ fish ];
 
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    reattach = true;
+  };
+
   system.primaryUser = "rhappy";
 
   users.users.rhappy = {
