@@ -27,7 +27,7 @@
       show-recents = false;
       showAppExposeGestureEnabled = false;
       showMissionControlGestureEnabled = true;
-      tilesize = 24;
+      tilesize = 32;
       wvous-br-corner = 14;
     };
 
