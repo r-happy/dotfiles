@@ -88,6 +88,17 @@
         NewWindowTarget = "PfAF";
       };
 
+      "com.apple.symbolichotkeys" = {
+        AppleSymbolicHotKeys = {
+          "64" = {
+            enabled = false;
+          };
+          "65" = {
+            enabled = false;
+          };
+        };
+      };
+
       "com.apple.screencapture" = {
         style = "window";
         video = false;

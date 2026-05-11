@@ -24,7 +24,7 @@ return {
         },
       },
       explorer = {
-        -- enabled = true,
+        enabled = true,
         replace_netrw = true,
       },
       indent = {

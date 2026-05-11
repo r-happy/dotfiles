@@ -16,7 +16,7 @@ vim.keymap.set(
   'n',
   'se',
   function() Snacks.picker.explorer() end,
-  { desc = "picker smart" }
+  { desc = "picker explorer" }
 )
 vim.keymap.set(
   'n',
