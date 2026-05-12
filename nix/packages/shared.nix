@@ -43,7 +43,6 @@ let
 
     tree-sitter
     luarocks
-    claude-code
     codexCli
 
     ghq

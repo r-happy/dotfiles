@@ -9,6 +9,12 @@ vim.keymap.set(
 vim.keymap.set(
   'n',
   'sf',
+  function() Snacks.picker.files() end,
+  { desc = "picker file" }
+)
+vim.keymap.set(
+  'n',
+  'sm',
   function() Snacks.picker.smart() end,
   { desc = "picker smart" }
 )

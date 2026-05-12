@@ -41,7 +41,12 @@ return {
         },
         chunk = { enabled = false },
       },
-      input = { enabled = true },
+      input = {
+        enabled = true,
+        win = {
+          position = "float",
+        },
+      },
       notifier = {
         enabled = true,
         timeout = 3000,

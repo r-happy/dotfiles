@@ -22,6 +22,26 @@ vim.opt.autoread = true
 -- line
 vim.opt.wrap = false
 vim.opt.wildmenu = true
+vim.opt.foldmethod = "manual"
+vim.opt.foldexpr = "0"
+vim.opt.foldenable = false
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+local function reset_folds(buf)
+  for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+    vim.wo[win].foldmethod = "manual"
+    vim.wo[win].foldexpr = "0"
+    vim.wo[win].foldenable = false
+    vim.wo[win].foldlevel = 99
+  end
+end
+
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+  group = vim.api.nvim_create_augroup("dotfiles-folds", { clear = true }),
+  callback = function(args)
+    reset_folds(args.buf)
+  end,
+})
 
 if vim.fn.has("wsl") == 1 then
   vim.ui.open = function(path)

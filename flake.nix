@@ -14,7 +14,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    claude-code-nix.url = "github:sadjow/claude-code-nix";
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
   };
 
@@ -23,7 +22,6 @@
       nixpkgs,
       home-manager,
       nix-darwin,
-      claude-code-nix,
       codex-cli-nix,
       ...
     }:
@@ -37,9 +35,7 @@
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = import ./nix/overlays.nix {
-            inherit claude-code-nix;
-          };
+          overlays = import ./nix/overlays.nix;
         };
 
       mkHome =

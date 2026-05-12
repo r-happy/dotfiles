@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/oil.nvim",
-    event = { "VimEnter" },
+    cmd = "Oil",
     opts = {
       columns = {
         "icon",
