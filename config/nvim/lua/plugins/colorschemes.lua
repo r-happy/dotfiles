@@ -7,4 +7,8 @@ return {
       -- transparent = true
     }
   },
+  -- {
+  --   dir = "~/github/tawny.nvim/",
+  --   opts = {}
+  -- }
 }
