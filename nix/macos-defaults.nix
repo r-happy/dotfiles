@@ -23,7 +23,7 @@
       magnification = true;
       minimize-to-application = false;
       mru-spaces = false;
-      orientation = "left";
+      orientation = "right";
       show-recents = false;
       showAppExposeGestureEnabled = false;
       showMissionControlGestureEnabled = true;
