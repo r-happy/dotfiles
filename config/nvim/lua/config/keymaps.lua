@@ -38,6 +38,18 @@ vim.keymap.set(
 )
 vim.keymap.set(
   'n',
+  'spc',
+  function() Snacks.picker.commands() end,
+  { desc = "picker commands" }
+)
+vim.keymap.set(
+  'n',
+  'sph',
+  function() Snacks.picker.command_history() end,
+  { desc = "picker command history" }
+)
+vim.keymap.set(
+  'n',
   'gd',
   function() Snacks.picker.lsp_definitions() end,
   { desc = "move define" }

@@ -22,6 +22,7 @@ let
     cargo
     rustfmt
     clippy
+    rustPlatform.rustLibSrc
 
     go
     nodejs
@@ -47,6 +48,7 @@ let
 
     ghq
     fzf
+    eza
 
     openssh
     wget
@@ -89,6 +91,10 @@ let
   ];
 in
 {
+  home.sessionVariables = {
+    RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
+  };
+
   home.packages =
     commonPackages
     ++ lib.optionals pkgs.stdenv.isLinux linuxOnlyPackages;
