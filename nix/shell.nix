@@ -30,6 +30,7 @@
     interactiveShellInit = ''
       fish_add_path ~/.nix-profile/bin
       fish_add_path /nix/var/nix/profiles/default/bin
+      fish_add_path ~/.cargo/bin
       set -gx RUST_SRC_PATH ${pkgs.rustPlatform.rustLibSrc}
 
       ${builtins.readFile ../config/fish/config.fish}

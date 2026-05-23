@@ -15,8 +15,10 @@
     basedpyright
     ruff
     nil
+    sqls
     vscode-langservers-extracted
     prettier
+    sql-formatter
     texlivePackages.latexindent
   ];
 }
