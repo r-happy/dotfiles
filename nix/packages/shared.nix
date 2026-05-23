@@ -22,7 +22,6 @@ let
     cargo
     rustfmt
     clippy
-    rustPlatform.rustLibSrc
 
     go
     nodejs
@@ -53,12 +52,10 @@ let
     openssh
     wget
     presenterm
-    python3Packages.weasyprint
 
-    # PDF utilities for text extraction and OCR
+    # PDF utilities for text extraction and OCR basics
     poppler-utils
     tesseract
-    ocrmypdf
 
     # CTF tools
     # 解析・フォレンジック
@@ -91,10 +88,6 @@ let
   ];
 in
 {
-  home.sessionVariables = {
-    RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
-  };
-
   home.packages =
     commonPackages
     ++ lib.optionals pkgs.stdenv.isLinux linuxOnlyPackages;

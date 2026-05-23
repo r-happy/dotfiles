@@ -3,6 +3,7 @@
 {
   imports = [
     ./packages/shared.nix
+    ./lsp.nix
     ./shell.nix
     ./git.nix
     ./editor.nix

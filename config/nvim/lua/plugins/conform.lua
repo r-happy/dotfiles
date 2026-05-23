@@ -2,10 +2,6 @@ return {
   {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "mason-org/mason.nvim",
-      "zapling/mason-conform.nvim",
-    },
     opts = {},
     config = function()
       require("conform").setup({
@@ -39,10 +35,6 @@ return {
           async = false,
           timeout_ms = 1000,
         },
-      })
-
-      require("mason-conform").setup({
-        ignore_install = {},
       })
     end,
   },

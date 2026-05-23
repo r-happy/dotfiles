@@ -13,6 +13,7 @@ return {
       end
     end,
     config = function()
+      local lspconfig = require("lspconfig")
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       local servers = {
         "basedpyright",
@@ -22,14 +23,18 @@ return {
         "lua_ls",
         "nil_ls",
         "ruff",
-        "rust_analyzer",
+        "ts_ls",
       }
 
-      vim.lsp.config("*", {
+      local default_config = {
         capabilities = capabilities,
-      })
+      }
 
-      vim.lsp.config("rust_analyzer", {
+      for _, server in ipairs(servers) do
+        lspconfig[server].setup(default_config)
+      end
+
+      lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", default_config, {
         capabilities = capabilities,
         settings = {
           ["rust-analyzer"] = {
@@ -42,9 +47,7 @@ return {
             check = { command = "clippy" },
           },
         },
-      })
-
-      vim.lsp.enable(servers)
+      }))
     end,
   },
 }
