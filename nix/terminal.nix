@@ -1,47 +1,22 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, tawnyNvim, ... }:
 
 let
-  tawnyGhosttyThemePath = /Users/rhappy/github/tawny.nvim/ghostty/color.ghostty;
-
-  tawnyThemeLines = lib.splitString "\n" (builtins.readFile tawnyGhosttyThemePath);
-
-  getThemeValue =
-    pattern:
-    let
-      matches = lib.filter (match: match != null) (map (line: builtins.match pattern line) tawnyThemeLines);
-    in
-    builtins.elemAt (builtins.head matches) 0;
-
-  paletteAttrs =
-    builtins.listToAttrs (
-      map (match: {
-        name = builtins.elemAt match 0;
-        value = builtins.elemAt match 1;
-      }) (
-        lib.filter (match: match != null) (
-          map (line: builtins.match "^palette = ([0-9]+)=(#[0-9a-fA-F]+)$" line) tawnyThemeLines
-        )
-      )
-    );
+  tawnyTheme = import ./lib/tawny-theme.nix {
+    inherit lib tawnyNvim;
+  };
 
   terminalTheme = {
     fontFamily = "UDEV Gothic 35NFLG";
     fontSize = 11;
-
-    background = getThemeValue "^background = (#[0-9a-fA-F]+)$";
-    foreground = getThemeValue "^foreground = (#[0-9a-fA-F]+)$";
-    selectionBackground = getThemeValue "^selection-background = (#[0-9a-fA-F]+)$";
-    selectionForeground = getThemeValue "^selection-foreground = (#[0-9a-fA-F]+)$";
-    cursorColor = getThemeValue "^cursor-color = (#[0-9a-fA-F]+)$";
-    cursorText = getThemeValue "^cursor-text = (#[0-9a-fA-F]+)$";
-
-    palette = map (index: paletteAttrs.${toString index}) (lib.range 0 15);
-  };
+  } // tawnyTheme;
 
   mkKittyConfig =
     theme:
     let
       paletteLines = lib.concatImapStringsSep "\n" (index: color: "color${toString index} ${color}") theme.palette;
+      macosLines = lib.optionalString pkgs.stdenv.isDarwin ''
+        macos_titlebar_color background
+      '';
     in
     ''
       # Managed by Home Manager. Colors sourced from tawny.nvim.
@@ -59,6 +34,7 @@ let
       ${paletteLines}
 
       macos_option_as_alt yes
+      ${macosLines}
       enable_audio_bell no
       visual_bell_duration 0.0
     '';

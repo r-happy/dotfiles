@@ -15,10 +15,14 @@
     };
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    tawnyNvim = {
+      url = "github:r-happy/tawny.nvim";
+      flake = false;
+    };
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
       home-manager,
       nix-darwin,
@@ -28,6 +32,7 @@
     let
       specialArgs = {
         inherit codex-cli-nix;
+        tawnyNvim = inputs.tawnyNvim;
       };
 
       mkPkgs =
