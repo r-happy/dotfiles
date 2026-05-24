@@ -4,12 +4,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      -- transparent = true
-      bold = true
-    }
+      bold = true,
+    },
   },
-  -- {
-  --   dir = "~/github/tawny.nvim/",
-  --   opts = {}
-  -- }
 }

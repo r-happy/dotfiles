@@ -7,6 +7,7 @@
     ./shell.nix
     ./git.nix
     ./editor.nix
+    ./terminal.nix
     ./tmux.nix
   ];
 

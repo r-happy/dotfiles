@@ -1,22 +1,22 @@
 return {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },
-    event = "VeryLazy",
-    opts = {
-        enabled = false,
-        heading = {
-            enabled = true,
-            sign = false,
-            backgrounds = {},
-            icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
-            position = 'inline',
-        }
+  "MeanderingProgrammer/render-markdown.nvim",
+  dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
+  event = "VeryLazy",
+  opts = {
+    enabled = false,
+    heading = {
+      enabled = true,
+      sign = false,
+      backgrounds = {},
+      icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
+      position = "inline",
     },
-    keys = {
-        {
-            '<leader>m',
-            '<cmd>RenderMarkdown toggle<cr>',
-            desc = 'Toggle Markdown Render',
-        },
+  },
+  keys = {
+    {
+      "<leader>m",
+      "<cmd>RenderMarkdown toggle<cr>",
+      desc = "Toggle Markdown Render",
     },
+  },
 }

@@ -1,11 +1,11 @@
 return {
   {
-    'nvim-lualine/lualine.nvim',
+    "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = {
       options = {
-        globalstatus = true
-      }
-    }
-  }
+        globalstatus = true,
+      },
+    },
+  },
 }
