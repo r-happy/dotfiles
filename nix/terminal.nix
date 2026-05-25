@@ -12,8 +12,8 @@ let
 
   terminalTheme = {
     # fontFamily = "Moralerspace Neon";
-    fontFamily = "PlemolJP35 Conosole NF";
-    # fontFamily = "UDEV Gothic NFLG";
+    # fontFamily = "PlemolJP35 Console NF";
+    fontFamily = "UDEV Gothic 35NFLG";
     fontSize = 11;
   }
   // tawnyTheme;
@@ -21,9 +21,10 @@ let
   mkKittyConfig =
     theme:
     let
-      paletteLines = lib.concatImapStringsSep "\n" (
-        index: color: "color${toString index} ${color}"
-      ) theme.palette;
+      paletteIndices = lib.range 0 ((builtins.length theme.palette) - 1);
+      paletteLines = lib.concatMapStringsSep "\n" (
+        index: "color${toString index} ${builtins.elemAt theme.palette index}"
+      ) paletteIndices;
       macosLines = lib.optionalString pkgs.stdenv.isDarwin ''
         macos_titlebar_color background
       '';
@@ -52,9 +53,10 @@ let
   mkGhosttyConfig =
     theme:
     let
-      paletteLines = lib.concatImapStringsSep "\n" (
-        index: color: "palette = ${toString index}=${color}"
-      ) theme.palette;
+      paletteIndices = lib.range 0 ((builtins.length theme.palette) - 1);
+      paletteLines = lib.concatMapStringsSep "\n" (
+        index: "palette = ${toString index}=${builtins.elemAt theme.palette index}"
+      ) paletteIndices;
     in
     ''
       # Managed by Home Manager. Colors sourced from tawny.nvim.
