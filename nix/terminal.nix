@@ -1,4 +1,9 @@
-{ lib, pkgs, tawnyNvim, ... }:
+{
+  lib,
+  pkgs,
+  tawnyNvim,
+  ...
+}:
 
 let
   tawnyTheme = import ./lib/tawny-theme.nix {
@@ -6,14 +11,19 @@ let
   };
 
   terminalTheme = {
-    fontFamily = "UDEV Gothic 35NFLG";
+    # fontFamily = "Moralerspace Neon";
+    fontFamily = "PlemolJP35 Conosole NF";
+    # fontFamily = "UDEV Gothic NFLG";
     fontSize = 11;
-  } // tawnyTheme;
+  }
+  // tawnyTheme;
 
   mkKittyConfig =
     theme:
     let
-      paletteLines = lib.concatImapStringsSep "\n" (index: color: "color${toString index} ${color}") theme.palette;
+      paletteLines = lib.concatImapStringsSep "\n" (
+        index: color: "color${toString index} ${color}"
+      ) theme.palette;
       macosLines = lib.optionalString pkgs.stdenv.isDarwin ''
         macos_titlebar_color background
       '';
@@ -42,8 +52,9 @@ let
   mkGhosttyConfig =
     theme:
     let
-      paletteLines =
-        lib.concatImapStringsSep "\n" (index: color: "palette = ${toString index}=${color}") theme.palette;
+      paletteLines = lib.concatImapStringsSep "\n" (
+        index: color: "palette = ${toString index}=${color}"
+      ) theme.palette;
     in
     ''
       # Managed by Home Manager. Colors sourced from tawny.nvim.
@@ -69,17 +80,16 @@ let
     '';
 in
 {
-  home.file =
-    {
-      ".config/kitty/kitty.conf" = {
-        force = true;
-        text = mkKittyConfig terminalTheme;
-      };
-    }
-    // lib.optionalAttrs pkgs.stdenv.isDarwin {
-      "Library/Application Support/com.mitchellh.ghostty/config.ghostty" = {
+  home.file = {
+    ".config/kitty/kitty.conf" = {
+      force = true;
+      text = mkKittyConfig terminalTheme;
+    };
+  }
+  // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    "Library/Application Support/com.mitchellh.ghostty/config.ghostty" = {
       force = true;
       text = mkGhosttyConfig terminalTheme;
     };
-    };
+  };
 }
