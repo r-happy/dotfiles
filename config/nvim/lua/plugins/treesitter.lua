@@ -36,7 +36,6 @@ local filetypes = {
   "javascript",
   "json",
   "lua",
-  "markdown",
   "query",
   "rust",
   "sh",

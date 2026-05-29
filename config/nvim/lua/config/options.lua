@@ -1,3 +1,5 @@
+local tawny = require("config.tawny")
+
 local options = {
   cursorcolumn = true,
   cursorline = true,
@@ -48,7 +50,8 @@ if vim.fn.has("wsl") == 1 then
   end
 end
 
-vim.cmd("colorscheme tawny")
+vim.o.background = tawny.variant
+vim.cmd("colorscheme " .. (tawny.variant == "light" and "tawny-light" or "tawny"))
 
 local disabled_builtins = {
   "netrw",

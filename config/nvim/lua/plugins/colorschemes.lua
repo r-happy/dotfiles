@@ -1,3 +1,5 @@
+local tawny = require("config.tawny")
+
 return {
   {
     "r-happy/tawny.nvim",
@@ -5,6 +7,7 @@ return {
     priority = 1000,
     opts = {
       bold = true,
+      variant = tawny.variant,
     },
   },
 }

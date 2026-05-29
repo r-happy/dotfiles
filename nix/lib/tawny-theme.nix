@@ -1,35 +1,39 @@
 { lib, tawnyNvim }:
 
 let
-  tawnyGhosttyThemePath = "${tawnyNvim}/ghostty/color.ghostty";
-
-  tawnyThemeLines = lib.splitString "\n" (builtins.readFile tawnyGhosttyThemePath);
-
-  getThemeValue =
-    pattern:
+  mkThemeFromVscode =
+    path:
     let
-      matches = lib.filter (match: match != null) (map (line: builtins.match pattern line) tawnyThemeLines);
+      colors = (builtins.fromJSON (builtins.readFile path)).colors;
     in
-    builtins.elemAt (builtins.head matches) 0;
-
-  paletteAttrs =
-    builtins.listToAttrs (
-      map (match: {
-        name = builtins.elemAt match 0;
-        value = builtins.elemAt match 1;
-      }) (
-        lib.filter (match: match != null) (
-          map (line: builtins.match "^palette = ([0-9]+)=(#[0-9a-fA-F]+)$" line) tawnyThemeLines
-        )
-      )
-    );
+    {
+      background = colors."terminal.background";
+      foreground = colors."terminal.foreground";
+      selectionBackground = colors."editor.selectionBackground";
+      selectionForeground = colors."terminal.foreground";
+      cursorColor = colors."terminalCursor.foreground";
+      cursorText = colors."terminal.background";
+      palette = [
+        colors."terminal.ansiBlack"
+        colors."terminal.ansiRed"
+        colors."terminal.ansiGreen"
+        colors."terminal.ansiYellow"
+        colors."terminal.ansiBlue"
+        colors."terminal.ansiMagenta"
+        colors."terminal.ansiCyan"
+        colors."terminal.ansiWhite"
+        colors."terminal.ansiBrightBlack"
+        colors."terminal.ansiBrightRed"
+        colors."terminal.ansiBrightGreen"
+        colors."terminal.ansiBrightYellow"
+        colors."terminal.ansiBrightBlue"
+        colors."terminal.ansiBrightMagenta"
+        colors."terminal.ansiBrightCyan"
+        colors."terminal.ansiBrightWhite"
+      ];
+    };
 in
 {
-  background = getThemeValue "^background = (#[0-9a-fA-F]+)$";
-  foreground = getThemeValue "^foreground = (#[0-9a-fA-F]+)$";
-  selectionBackground = getThemeValue "^selection-background = (#[0-9a-fA-F]+)$";
-  selectionForeground = getThemeValue "^selection-foreground = (#[0-9a-fA-F]+)$";
-  cursorColor = getThemeValue "^cursor-color = (#[0-9a-fA-F]+)$";
-  cursorText = getThemeValue "^cursor-text = (#[0-9a-fA-F]+)$";
-  palette = map (index: paletteAttrs.${toString index}) (lib.range 0 15);
+  dark = mkThemeFromVscode "${tawnyNvim}/vscode/themes/tawny-dark-color-theme.json";
+  light = mkThemeFromVscode "${tawnyNvim}/vscode/themes/tawny-light-color-theme.json";
 }
