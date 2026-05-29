@@ -136,11 +136,11 @@
     "tawnyNvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1780036262,
-        "narHash": "sha256-ETJ37EKIN6YAZFTnA8QVmwEmsrNpFwOqy7A3MUxiNNE=",
+        "lastModified": 1780050162,
+        "narHash": "sha256-W3XJ8XlI/MSL30O/ZafyPm85irn7lBsqZmBxEVSOV3U=",
         "owner": "r-happy",
         "repo": "tawny.nvim",
-        "rev": "450003f012908cf98aedd7d51ef0155ece6ab2b2",
+        "rev": "f1f38887fbd203fcbee8c59ff6b457d3b50175cf",
         "type": "github"
       },
       "original": {

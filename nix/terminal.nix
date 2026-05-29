@@ -81,6 +81,8 @@ let
       scrollbar = never
       bell-features = no-system
       macos-titlebar-proxy-icon = hidden
+      # font-thicken = true
+      # font-thicken-strength = 60
     '';
 in
 {

@@ -71,8 +71,8 @@
 
     CustomUserPreferences = {
       NSGlobalDomain = {
-        AppleLanguages = [ "ja-JP" ];
-        AppleLocale = "ja_JP";
+        AppleLanguages = [ "en-JP" "ja-JP" ];
+        AppleLocale = "en_JP";
         AppleMenuBarVisibleInFullscreen = true;
         AppleMiniaturizeOnDoubleClick = false;
         "com.apple.mouse.scaling" = 3.0;
