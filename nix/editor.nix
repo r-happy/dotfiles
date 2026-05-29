@@ -1,5 +1,8 @@
 { ... }:
 
+let
+  terminalVariant = import ./lib/tawny-variant.nix;
+in
 {
   programs.neovim = {
     enable = true;
@@ -14,6 +17,15 @@
     ".config/nvim" = {
       source = ../config/nvim;
       recursive = true;
+    };
+
+    ".config/nvim/lua/config/tawny-generated.lua" = {
+      force = true;
+      text = ''
+        return {
+          variant = "${terminalVariant}",
+        }
+      '';
     };
   };
 }

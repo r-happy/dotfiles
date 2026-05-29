@@ -1,5 +1,10 @@
 local M = {}
 
+local ok_generated, generated = pcall(require, "config.tawny-generated")
+if ok_generated and type(generated) == "table" then
+  return generated
+end
+
 local source_path = debug.getinfo(1, "S").source:sub(2)
 local real_source_path = vim.loop.fs_realpath(source_path) or source_path
 local repo_root = vim.fn.fnamemodify(real_source_path, ":h:h:h:h")
