@@ -52,6 +52,7 @@ let
     openssh
     wget
     presenterm
+    texliveFull
 
     # PDF utilities for text extraction and OCR basics
     poppler-utils

@@ -76,11 +76,11 @@ let
       ${paletteLines}
 
       macos-option-as-alt = true
-
       window-decoration = auto
       scrollbar = never
       bell-features = no-system
       macos-titlebar-proxy-icon = hidden
+      keybind = ¥=text:\\
       # font-thicken = true
       # font-thicken-strength = 60
     '';
