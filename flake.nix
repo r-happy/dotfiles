@@ -2,10 +2,10 @@
   description = "rhappy dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -107,14 +107,14 @@
       apps.${linuxSystem} = {
         switch = mkSwitchApp linuxPkgs "switch-linux" ''
           git -C ~/dotfiles add .
-          nix run home-manager/master -- switch --flake ~/dotfiles#rhappy-linux
+          ${home-manager.packages.${linuxSystem}.home-manager}/bin/home-manager switch --flake ~/dotfiles#rhappy-linux
         '';
       };
 
       apps.${darwinSystem} = {
         switch = mkSwitchApp darwinPkgs "switch-darwin" ''
           git -C ~/dotfiles add .
-          sudo -H nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake /Users/rhappy/dotfiles#${darwinHost}
+          sudo -H ${nix-darwin.packages.${darwinSystem}.darwin-rebuild}/bin/darwin-rebuild switch --flake /Users/rhappy/dotfiles#${darwinHost}
         '';
       };
     };
