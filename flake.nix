@@ -10,11 +10,12 @@
     };
 
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    nixvim-config.url = "github:r-happy/nixvim-config";
     tawnyNvim = {
       url = "github:r-happy/tawny.nvim";
       flake = false;
@@ -32,6 +33,7 @@
     let
       specialArgs = {
         inherit codex-cli-nix;
+        nixvimConfig = inputs.nixvim-config;
         tawnyNvim = inputs.tawnyNvim;
       };
 

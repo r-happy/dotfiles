@@ -40,6 +40,8 @@ let
     lldb
     unzip
     gnumake
+    flex
+    bison
 
     tree-sitter
     luarocks
@@ -89,7 +91,5 @@ let
   ];
 in
 {
-  home.packages =
-    commonPackages
-    ++ lib.optionals pkgs.stdenv.isLinux linuxOnlyPackages;
+  home.packages = commonPackages ++ lib.optionals pkgs.stdenv.isLinux linuxOnlyPackages;
 }

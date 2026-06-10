@@ -16,6 +16,7 @@
     ruff
     nil
     sqls
+    texlab
     vscode-langservers-extracted
     prettier
     sql-formatter
