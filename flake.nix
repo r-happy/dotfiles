@@ -74,7 +74,7 @@
       linuxPkgs = mkPkgs linuxSystem;
       darwinPkgs = mkPkgs darwinSystem;
     in
-    {
+    rec {
       homeConfigurations = {
         "rhappy" = mkHome {
           system = linuxSystem;
@@ -111,6 +111,7 @@
           git -C ~/dotfiles add .
           ${home-manager.packages.${linuxSystem}.home-manager}/bin/home-manager switch --flake ~/dotfiles#rhappy-linux
         '';
+        default = apps.${linuxSystem}.switch;
       };
 
       apps.${darwinSystem} = {
@@ -118,6 +119,7 @@
           git -C ~/dotfiles add .
           sudo -H ${nix-darwin.packages.${darwinSystem}.darwin-rebuild}/bin/darwin-rebuild switch --flake /Users/rhappy/dotfiles#${darwinHost}
         '';
+        default = apps.${darwinSystem}.switch;
       };
     };
 }
