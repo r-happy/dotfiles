@@ -1,5 +1,8 @@
 { ... }:
 
+let
+  settings = import ./lib/settings.nix;
+in
 {
   imports = [
     ./packages/shared.nix
@@ -11,7 +14,7 @@
     ./tmux.nix
   ];
 
-  home.username = "rhappy";
+  home.username = settings.username;
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
 }

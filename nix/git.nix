@@ -1,15 +1,18 @@
 { ... }:
 
+let
+  settings = import ./lib/settings.nix;
+in
 {
   programs.git = {
     enable = true;
     settings = {
       user = {
-        name = "r-happy";
-        email = "106812882+r-happy@users.noreply.github.com";
+        name = settings.git.name;
+        email = settings.git.email;
       };
       ghq = {
-        root = "~/github";
+        root = settings.git.root;
       };
     };
     signing.format = null;

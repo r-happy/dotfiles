@@ -1,5 +1,8 @@
 { pkgs, ... }:
 
+let
+  settings = import ./lib/settings.nix;
+in
 {
   programs.fish.enable = true;
 
@@ -14,10 +17,10 @@
     reattach = true;
   };
 
-  system.primaryUser = "rhappy";
+  system.primaryUser = settings.username;
 
-  users.users.rhappy = {
-    home = "/Users/rhappy";
+  users.users.${settings.username} = {
+    home = settings.homes.darwin;
     shell = pkgs.fish;
   };
 

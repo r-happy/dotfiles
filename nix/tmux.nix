@@ -1,12 +1,10 @@
 { lib, pkgs, tawnyNvim, ... }:
 
 let
-  terminalVariant = import ./lib/tawny-variant.nix;
-
-  tawnyThemes = import ./lib/tawny-theme.nix {
+  tawny = import ./lib/tawny.nix {
     inherit lib tawnyNvim;
   };
-  tawnyTheme = tawnyThemes.${terminalVariant};
+  tawnyTheme = tawny.theme;
   color0 = builtins.elemAt tawnyTheme.palette 0;
   color1 = builtins.elemAt tawnyTheme.palette 1;
   color3 = builtins.elemAt tawnyTheme.palette 3;

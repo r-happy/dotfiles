@@ -31,6 +31,8 @@
       ...
     }:
     let
+      settings = import ./nix/lib/settings.nix;
+
       specialArgs = {
         inherit codex-cli-nix;
         nixvimConfig = inputs.nixvim-config;
@@ -67,28 +69,22 @@
           );
         };
 
-      linuxSystem = "x86_64-linux";
-      darwinSystem = "aarch64-darwin";
-      darwinHost = "ReinoMacBook-Pro";
+      mkHomeEntry = system: module: {
+        inherit system module;
+      };
 
-      linuxPkgs = mkPkgs linuxSystem;
-      darwinPkgs = mkPkgs darwinSystem;
+      linuxPkgs = mkPkgs settings.systems.linux;
+      darwinPkgs = mkPkgs settings.systems.darwin;
     in
     rec {
       homeConfigurations = {
-        "rhappy" = mkHome {
-          system = linuxSystem;
-          module = ./nix/linux.nix;
-        };
-
-        "rhappy-linux" = mkHome {
-          system = linuxSystem;
-          module = ./nix/linux.nix;
-        };
+        "${settings.username}" = mkHome (mkHomeEntry settings.systems.linux ./nix/linux.nix);
+        "${settings.username}-linux" =
+          mkHome (mkHomeEntry settings.systems.linux ./nix/linux.nix);
       };
 
-      darwinConfigurations.${darwinHost} = nix-darwin.lib.darwinSystem {
-        system = darwinSystem;
+      darwinConfigurations.${settings.hosts.darwin} = nix-darwin.lib.darwinSystem {
+        system = settings.systems.darwin;
         pkgs = darwinPkgs;
 
         inherit specialArgs;
@@ -101,25 +97,23 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = specialArgs;
-            home-manager.users.rhappy = import ./nix/darwin.nix;
+            home-manager.users.${settings.username} = import ./nix/darwin.nix;
           }
         ];
       };
 
-      apps.${linuxSystem} = {
+      apps.${settings.systems.linux} = {
         switch = mkSwitchApp linuxPkgs "switch-linux" ''
-          git -C ~/dotfiles add .
-          ${home-manager.packages.${linuxSystem}.home-manager}/bin/home-manager switch --flake ~/dotfiles#rhappy-linux
+          ${home-manager.packages.${settings.systems.linux}.home-manager}/bin/home-manager switch --flake path:${settings.paths.dotfiles}#${settings.username}-linux
         '';
-        default = apps.${linuxSystem}.switch;
+        default = apps.${settings.systems.linux}.switch;
       };
 
-      apps.${darwinSystem} = {
+      apps.${settings.systems.darwin} = {
         switch = mkSwitchApp darwinPkgs "switch-darwin" ''
-          git -C ~/dotfiles add .
-          sudo -H ${nix-darwin.packages.${darwinSystem}.darwin-rebuild}/bin/darwin-rebuild switch --flake /Users/rhappy/dotfiles#${darwinHost}
+          sudo -H ${nix-darwin.packages.${settings.systems.darwin}.darwin-rebuild}/bin/darwin-rebuild switch --flake path:${settings.paths.dotfiles}#${settings.hosts.darwin}
         '';
-        default = apps.${darwinSystem}.switch;
+        default = apps.${settings.systems.darwin}.switch;
       };
     };
 }

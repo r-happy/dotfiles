@@ -6,9 +6,7 @@
 }:
 
 let
-  terminalVariant = import ./lib/tawny-variant.nix;
-
-  tawnyThemes = import ./lib/tawny-theme.nix {
+  tawny = import ./lib/tawny.nix {
     inherit lib tawnyNvim;
   };
 
@@ -18,7 +16,7 @@ let
     fontFamily = "UDEV Gothic 35NFLG";
     fontSize = 11;
   }
-  // tawnyThemes.${terminalVariant};
+  // tawny.theme;
 
   mkKittyConfig =
     theme:
