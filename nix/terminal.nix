@@ -81,8 +81,8 @@ let
       keybind = ¥=text:\\
       # font-thicken = true
       # font-thicken-strength = 60
-      background-opacity = 0.9
-      background-blur = macos-glass-regular
+      # background-opacity = 0.9
+      # background-blur = true
     '';
 in
 {
