@@ -12,8 +12,8 @@ let
 
   terminalTheme = {
     # fontFamily = "Moralerspace Neon";
-    # fontFamily = "PlemolJP35 Console NF";
-    fontFamily = "UDEV Gothic 35NFLG";
+    fontFamily = "PlemolJP35 Console NF";
+    # fontFamily = "UDEV Gothic 35NFLG";
     fontSize = 11;
   }
   // tawny.theme;
@@ -81,6 +81,8 @@ let
       keybind = ¥=text:\\
       # font-thicken = true
       # font-thicken-strength = 60
+      background-opacity = 0.9
+      background-blur = macos-glass-regular
     '';
 in
 {
