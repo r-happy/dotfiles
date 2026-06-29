@@ -15,7 +15,10 @@
     };
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
-    nixvim-config.url = "github:r-happy/nixvim-config";
+    nixvim-config = {
+      url = "github:r-happy/nixvim-config";
+      inputs.tawnyNvim.follows = "tawnyNvim";
+    };
     tawnyNvim = {
       url = "github:r-happy/tawny.nvim";
       flake = false;

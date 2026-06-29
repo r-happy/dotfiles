@@ -10,13 +10,14 @@ let
     inherit lib tawnyNvim;
   };
 
-  terminalTheme = {
+  terminalSettings = {
     # fontFamily = "Moralerspace Neon";
     fontFamily = "PlemolJP35 Console NF";
     # fontFamily = "UDEV Gothic 35NFLG";
     fontSize = 11;
-  }
-  // tawny.theme;
+  };
+
+  kittyTheme = terminalSettings // tawny.theme;
 
   mkKittyConfig =
     theme:
@@ -51,27 +52,13 @@ let
     '';
 
   mkGhosttyConfig =
-    theme:
-    let
-      paletteIndices = lib.range 0 ((builtins.length theme.palette) - 1);
-      paletteLines = lib.concatMapStringsSep "\n" (
-        index: "palette = ${toString index}=${builtins.elemAt theme.palette index}"
-      ) paletteIndices;
-    in
+    settings:
     ''
       # Managed by Home Manager. Colors sourced from tawny.nvim.
-      font-family = ${theme.fontFamily}
-      font-size = ${toString theme.fontSize}
+      ${builtins.readFile "${tawnyNvim}/ghostty/color.ghostty"}
 
-      background = ${theme.background}
-      foreground = ${theme.foreground}
-      selection-background = ${theme.selectionBackground}
-      selection-foreground = ${theme.selectionForeground}
-
-      cursor-color = ${theme.cursorColor}
-      cursor-text = ${theme.cursorText}
-
-      ${paletteLines}
+      font-family = ${settings.fontFamily}
+      font-size = ${toString settings.fontSize}
 
       macos-option-as-alt = true
       window-decoration = auto
@@ -89,13 +76,13 @@ in
   home.file = {
     ".config/kitty/kitty.conf" = {
       force = true;
-      text = mkKittyConfig terminalTheme;
+      text = mkKittyConfig kittyTheme;
     };
   }
   // lib.optionalAttrs pkgs.stdenv.isDarwin {
     "Library/Application Support/com.mitchellh.ghostty/config.ghostty" = {
       force = true;
-      text = mkGhosttyConfig terminalTheme;
+      text = mkGhosttyConfig terminalSettings;
     };
   };
 }
