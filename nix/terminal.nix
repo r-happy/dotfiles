@@ -80,7 +80,7 @@ in
     };
   }
   // lib.optionalAttrs pkgs.stdenv.isDarwin {
-    "Library/Application Support/com.mitchellh.ghostty/config.ghostty" = {
+    "Library/Application Support/com.mitchellh.ghostty/config" = {
       force = true;
       text = mkGhosttyConfig terminalSettings;
     };
