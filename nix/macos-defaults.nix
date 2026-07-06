@@ -23,7 +23,7 @@
       magnification = true;
       minimize-to-application = false;
       mru-spaces = false;
-      orientation = "bottom";
+      orientation = "right";
       show-recents = false;
       showAppExposeGestureEnabled = false;
       showMissionControlGestureEnabled = true;
@@ -71,7 +71,10 @@
 
     CustomUserPreferences = {
       NSGlobalDomain = {
-        AppleLanguages = [ "en-JP" "ja-JP" ];
+        AppleLanguages = [
+          "en-JP"
+          "ja-JP"
+        ];
         AppleLocale = "en_JP";
         AppleMenuBarVisibleInFullscreen = true;
         AppleMiniaturizeOnDoubleClick = false;

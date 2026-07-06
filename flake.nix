@@ -63,14 +63,10 @@
           ];
         };
 
-      mkSwitchApp =
-        pkgs: name: script:
-        {
-          type = "app";
-          program = builtins.toString (
-            pkgs.writeShellScript name script
-          );
-        };
+      mkSwitchApp = pkgs: name: script: {
+        type = "app";
+        program = builtins.toString (pkgs.writeShellScript name script);
+      };
 
       mkHomeEntry = system: module: {
         inherit system module;
@@ -82,8 +78,7 @@
     rec {
       homeConfigurations = {
         "${settings.username}" = mkHome (mkHomeEntry settings.systems.linux ./nix/linux.nix);
-        "${settings.username}-linux" =
-          mkHome (mkHomeEntry settings.systems.linux ./nix/linux.nix);
+        "${settings.username}-linux" = mkHome (mkHomeEntry settings.systems.linux ./nix/linux.nix);
       };
 
       darwinConfigurations.${settings.hosts.darwin} = nix-darwin.lib.darwinSystem {
@@ -107,14 +102,18 @@
 
       apps.${settings.systems.linux} = {
         switch = mkSwitchApp linuxPkgs "switch-linux" ''
-          ${home-manager.packages.${settings.systems.linux}.home-manager}/bin/home-manager switch --flake path:${settings.paths.dotfiles}#${settings.username}-linux
+          ${
+            home-manager.packages.${settings.systems.linux}.home-manager
+          }/bin/home-manager switch --flake path:${settings.paths.dotfiles}#${settings.username}-linux
         '';
         default = apps.${settings.systems.linux}.switch;
       };
 
       apps.${settings.systems.darwin} = {
         switch = mkSwitchApp darwinPkgs "switch-darwin" ''
-          sudo -H ${nix-darwin.packages.${settings.systems.darwin}.darwin-rebuild}/bin/darwin-rebuild switch --flake path:${settings.paths.dotfiles}#${settings.hosts.darwin}
+          sudo -H ${
+            nix-darwin.packages.${settings.systems.darwin}.darwin-rebuild
+          }/bin/darwin-rebuild switch --flake path:${settings.paths.dotfiles}#${settings.hosts.darwin}
         '';
         default = apps.${settings.systems.darwin}.switch;
       };
