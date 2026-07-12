@@ -51,26 +51,25 @@ let
       visual_bell_duration 0.0
     '';
 
-  mkGhosttyConfig =
-    settings:
-    ''
-      # Managed by Home Manager. Colors sourced from tawny.nvim.
-      ${builtins.readFile "${tawnyNvim}/ghostty/color.ghostty"}
+  mkGhosttyConfig = settings: ''
+    # Managed by Home Manager. Colors sourced from tawny.nvim.
+    ${builtins.readFile "${tawnyNvim}/ghostty/color.ghostty"}
 
-      font-family = ${settings.fontFamily}
-      font-size = ${toString settings.fontSize}
+    font-family = ${settings.fontFamily}
+    font-size = ${toString settings.fontSize}
 
-      macos-option-as-alt = true
-      window-decoration = auto
-      scrollbar = never
-      bell-features = no-system
-      macos-titlebar-proxy-icon = hidden
-      keybind = ¥=text:\\
-      # font-thicken = true
-      # font-thicken-strength = 60
-      # background-opacity = 0.9
-      # background-blur = true
-    '';
+    macos-option-as-alt = true
+    window-decoration = auto
+    scrollbar = never
+    bell-features = no-system
+    macos-titlebar-proxy-icon = hidden
+    keybind = ¥=text:\\
+    font-thicken = true
+    font-thicken-strength = 60
+    # background-opacity = 0.9
+    # background-blur = true
+    macos-titlebar-style = tabs
+  '';
 in
 {
   home.file = {
