@@ -14,7 +14,7 @@ let
     # fontFamily = "Moralerspace Neon";
     fontFamily = "PlemolJP35 Console NF";
     # fontFamily = "UDEV Gothic 35NFLG";
-    fontSize = 11;
+    fontSize = 12;
   };
 
   kittyTheme = terminalSettings // tawny.theme;
@@ -68,7 +68,7 @@ let
     font-thicken-strength = 60
     # background-opacity = 0.9
     # background-blur = true
-    macos-titlebar-style = tabs
+    # macos-titlebar-style = tabs
   '';
 in
 {
