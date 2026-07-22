@@ -31,6 +31,7 @@
 
   outputs =
     inputs@{
+      self,
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
@@ -119,7 +120,7 @@
         switch = mkSwitchApp linuxPkgs "switch-linux" ''
           ${
             home-manager.packages.${settings.systems.linux}.home-manager
-          }/bin/home-manager switch --flake path:${settings.paths.dotfiles}#${settings.username}-linux
+          }/bin/home-manager switch --flake path:${self.outPath}#${settings.username}-linux
         '';
         default = apps.${settings.systems.linux}.switch;
       };
@@ -128,7 +129,7 @@
         switch = mkSwitchApp darwinPkgs "switch-darwin" ''
           sudo -H ${
             nix-darwin.packages.${settings.systems.darwin}.darwin-rebuild
-          }/bin/darwin-rebuild switch --flake path:${settings.paths.dotfiles}#${settings.hosts.darwin}
+          }/bin/darwin-rebuild switch --flake path:${self.outPath}#${settings.hosts.darwin}
         '';
         default = apps.${settings.systems.darwin}.switch;
       };

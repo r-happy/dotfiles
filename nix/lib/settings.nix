@@ -20,8 +20,4 @@
     linux = "/home/rhappy";
     darwin = "/Users/rhappy";
   };
-
-  paths = {
-    dotfiles = "/Users/rhappy/dotfiles";
-  };
 }
