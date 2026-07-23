@@ -12,8 +12,8 @@ let
 
   terminalSettings = {
     # fontFamily = "Moralerspace Neon";
-    fontFamily = "PlemolJP35 Console NF";
-    # fontFamily = "UDEV Gothic 35NFLG";
+    # fontFamily = "PlemolJP35 Console NF";
+    fontFamily = "UDEV Gothic 35NFLG";
     fontSize = 11;
   };
 
@@ -77,16 +77,63 @@ let
           "${palette 8}", "${palette 9}", "${palette 10}", "${palette 11}",
           "${palette 12}", "${palette 13}", "${palette 14}", "${palette 15}",
         },
+        tab_bar = {
+          background = "${theme.titlebarBackground}",
+          active_tab = {
+            bg_color = "${theme.tabActiveBackground}",
+            fg_color = "${theme.tabActiveForeground}",
+          },
+          inactive_tab = {
+            bg_color = "${theme.tabInactiveBackground}",
+            fg_color = "${theme.tabInactiveForeground}",
+          },
+          inactive_tab_hover = {
+            bg_color = "${theme.selectionBackground}",
+            fg_color = "${theme.foreground}",
+          },
+          new_tab = {
+            bg_color = "${theme.titlebarBackground}",
+            fg_color = "${theme.tabInactiveForeground}",
+          },
+          new_tab_hover = {
+            bg_color = "${theme.selectionBackground}",
+            fg_color = "${theme.foreground}",
+          },
+        },
       }
 
-      config.font = wezterm.font("${theme.fontFamily}")
+      config.window_frame = {
+        font = wezterm.font {
+          family = "${theme.fontFamily}",
+          weight = "Medium",
+        },
+        active_titlebar_bg = "${theme.titlebarBackground}",
+        active_titlebar_fg = "${theme.titlebarForeground}",
+        inactive_titlebar_bg = "${theme.titlebarBackground}",
+        inactive_titlebar_fg = "${theme.tabInactiveForeground}",
+        button_bg = "${theme.titlebarBackground}",
+        button_fg = "${theme.titlebarForeground}",
+        button_hover_bg = "${theme.selectionBackground}",
+        button_hover_fg = "${theme.foreground}",
+      }
+
+      config.font = wezterm.font {
+        family = "${theme.fontFamily}",
+        weight = "Medium",
+      }
       config.font_size = ${toString theme.fontSize}
+      config.use_cap_height_to_scale_fallback_fonts = true
       config.hide_tab_bar_if_only_one_tab = true
       config.enable_scroll_bar = false
       config.use_ime = true
       config.audible_bell = "Disabled"
       config.default_cursor_style = "SteadyBar"
-
+      config.window_padding = {
+        left = 2,
+        right = 2,
+        top = 0,
+        bottom = 0,
+      }
       config.keys = {
         {
           key = "¥",

@@ -13,6 +13,12 @@ let
       selectionForeground = colors."terminal.foreground";
       cursorColor = colors."terminalCursor.foreground";
       cursorText = colors."terminal.background";
+      titlebarBackground = colors."titleBar.activeBackground";
+      titlebarForeground = colors."titleBar.activeForeground";
+      tabActiveBackground = colors."tab.activeBackground";
+      tabActiveForeground = colors."tab.activeForeground";
+      tabInactiveBackground = colors."tab.inactiveBackground";
+      tabInactiveForeground = colors."tab.inactiveForeground";
       palette = [
         colors."terminal.ansiBlack"
         colors."terminal.ansiRed"
