@@ -12,8 +12,8 @@ let
 
   terminalSettings = {
     # fontFamily = "Moralerspace Neon";
-    # fontFamily = "PlemolJP35 Console NF";
-    fontFamily = "UDEV Gothic 35NFLG";
+    fontFamily = "PlemolJP35 Console NF";
+    # fontFamily = "UDEV Gothic 35NFLG";
     fontSize = 11;
   };
 
