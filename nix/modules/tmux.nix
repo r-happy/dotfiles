@@ -1,7 +1,7 @@
 { lib, pkgs, tawnyNvim, ... }:
 
 let
-  tawny = import ./lib/tawny.nix {
+  tawny = import ../lib/tawny.nix {
     inherit lib tawnyNvim;
   };
   tawnyTheme = tawny.theme;
@@ -13,7 +13,7 @@ let
   surface0 = tawnyTheme.background;
   surface1 = tawnyTheme.selectionBackground;
 
-  baseConfig = builtins.readFile ../config/tmux/tmux.conf;
+  baseConfig = builtins.readFile ../../config/tmux/tmux.conf;
 
   tmuxTheme = ''
     # Managed by Home Manager. Colors sourced from tawny.nvim.

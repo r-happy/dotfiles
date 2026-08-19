@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  settings = import ./lib/settings.nix;
+  settings = import ../lib/settings.nix;
 in
 {
   programs.fish.enable = true;

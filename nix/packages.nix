@@ -1,8 +1,0 @@
-{ ... }:
-
-{
-  imports = [
-    ./packages/shared.nix
-    ./packages/linux.nix
-  ];
-}

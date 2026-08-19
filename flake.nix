@@ -48,22 +48,10 @@
         tawnyNvim = inputs.tawnyNvim;
       };
 
-      mkPkgs =
-        system:
-        let
-          unstablePkgs = import nixpkgs-unstable {
-            inherit system;
-            config.allowUnfree = true;
-          };
-        in
+      mkPkgs = system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = (import ./nix/overlays.nix) ++ [
-            # nixos-26.05's prettier still builds an internal dependency with
-            # insecure pnpm 9; use the fixed nixpkgs-unstable recipe instead.
-            (_final: _prev: { prettier = unstablePkgs.prettier; })
-          ];
         };
 
       mkHome =
@@ -93,8 +81,8 @@
     in
     rec {
       homeConfigurations = {
-        "${settings.username}" = mkHome (mkHomeEntry settings.systems.linux ./nix/linux.nix);
-        "${settings.username}-linux" = mkHome (mkHomeEntry settings.systems.linux ./nix/linux.nix);
+        "${settings.username}" = mkHome (mkHomeEntry settings.systems.linux ./nix/home/linux.nix);
+        "${settings.username}-linux" = mkHome (mkHomeEntry settings.systems.linux ./nix/home/linux.nix);
       };
 
       darwinConfigurations.${settings.hosts.darwin} = nix-darwin.lib.darwinSystem {
@@ -104,14 +92,14 @@
         inherit specialArgs;
 
         modules = [
-          ./nix/system-darwin.nix
+          ./nix/system/darwin.nix
 
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = specialArgs;
-            home-manager.users.${settings.username} = import ./nix/darwin.nix;
+            home-manager.users.${settings.username} = import ./nix/home/darwin.nix;
           }
         ];
       };

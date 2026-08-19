@@ -6,7 +6,7 @@
 }:
 
 let
-  tawny = import ./lib/tawny.nix {
+  tawny = import ../lib/tawny.nix {
     inherit lib tawnyNvim;
   };
 
@@ -26,7 +26,7 @@ let
       paletteLines = lib.concatMapStringsSep "\n" (
         index: "color${toString index} ${builtins.elemAt theme.palette index}"
       ) paletteIndices;
-      macosLines = lib.optionalString pkgs.stdenv.isDarwin ''
+      macosLines = lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
         macos_titlebar_color background
       '';
     in
@@ -176,7 +176,7 @@ in
       text = mkWezTermConfig terminalTheme;
     };
   }
-  // lib.optionalAttrs pkgs.stdenv.isDarwin {
+  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     "Library/Application Support/com.mitchellh.ghostty/config" = {
       force = true;
       text = mkGhosttyConfig terminalSettings;
