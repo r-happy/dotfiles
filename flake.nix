@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -15,10 +14,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    codex-cli-nix = {
-      url = "github:sadjow/codex-cli-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     nixvim-config = {
       url = "github:r-happy/nixvim-config";
       inputs.tawnyNvim.follows = "tawnyNvim";
@@ -33,17 +28,14 @@
     inputs@{
       self,
       nixpkgs,
-      nixpkgs-unstable,
       home-manager,
       nix-darwin,
-      codex-cli-nix,
       ...
     }:
     let
       settings = import ./nix/lib/settings.nix;
 
       specialArgs = {
-        inherit codex-cli-nix;
         nixvimConfig = inputs.nixvim-config;
         tawnyNvim = inputs.tawnyNvim;
       };
@@ -108,7 +100,8 @@
         switch = mkSwitchApp linuxPkgs "switch-linux" ''
           ${
             home-manager.packages.${settings.systems.linux}.home-manager
-          }/bin/home-manager switch --flake path:${self.outPath}#${settings.username}-linux
+          }/bin/home-manager switch --flake path:${self.outPath}#${settings.username}-linux \
+            --override-input nixvim-config path:${inputs.nixvim-config.outPath}
         '';
         default = apps.${settings.systems.linux}.switch;
       };
@@ -117,7 +110,8 @@
         switch = mkSwitchApp darwinPkgs "switch-darwin" ''
           sudo -H ${
             nix-darwin.packages.${settings.systems.darwin}.darwin-rebuild
-          }/bin/darwin-rebuild switch --flake path:${self.outPath}#${settings.hosts.darwin}
+          }/bin/darwin-rebuild switch --flake path:${self.outPath}#${settings.hosts.darwin} \
+            --override-input nixvim-config path:${inputs.nixvim-config.outPath}
         '';
         default = apps.${settings.systems.darwin}.switch;
       };
