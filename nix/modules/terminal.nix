@@ -14,7 +14,8 @@ let
     # fontFamily = "Moralerspace Neon";
     # fontFamily = "PlemolJP35 Console NF";
     fontFamily = "UDEV Gothic 35NFLG";
-    fontSize = 11;
+    # fontFamily = "Pending Mono NF";
+    fontSize = 10;
   };
 
   terminalTheme = terminalSettings // tawny.theme;
@@ -147,7 +148,9 @@ let
 
   mkGhosttyConfig = settings: ''
     # Managed by Home Manager. Colors sourced from tawny.nvim.
-    ${builtins.readFile "${tawnyNvim}/ghostty/color.ghostty"}
+    ${builtins.readFile "${tawnyNvim}/ghostty/${
+      if tawny.terminalVariant == "light" then "color-light.ghostty" else "color.ghostty"
+    }"}
 
     font-family = ${settings.fontFamily}
     font-size = ${toString settings.fontSize}
