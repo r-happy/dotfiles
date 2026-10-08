@@ -130,6 +130,7 @@ let
       config.use_ime = true
       config.audible_bell = "Disabled"
       config.default_cursor_style = "SteadyBar"
+      config.window_decorations = "TITLE | RESIZE | MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
       config.window_padding = {
         left = 2,
         right = 2,

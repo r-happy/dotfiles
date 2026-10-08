@@ -15,6 +15,7 @@
       "com.apple.swipescrolldirection" = true;
       "com.apple.trackpad.forceClick" = true;
       "com.apple.trackpad.scaling" = 3.0;
+      ApplePressAndHoldEnabled = false;
     };
 
     dock = {
