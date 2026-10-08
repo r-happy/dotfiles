@@ -1,8 +1,25 @@
 {
   description = "rhappy dotfiles";
 
+  nixConfig = {
+    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+
+    # Keep its tested unstable nixpkgs instead of following our stable input.
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
+    fish-ghq-fzf = {
+      url = "github:yuys13/fish-ghq-fzf";
+      flake = false;
+    };
+    fish-autols = {
+      url = "github:yuys13/fish-autols";
+      flake = false;
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -24,96 +41,30 @@
     };
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      home-manager,
-      nix-darwin,
-      ...
-    }:
+  outputs = inputs:
     let
       settings = import ./nix/lib/settings.nix;
-
-      specialArgs = {
-        nixvimConfig = inputs.nixvim-config;
-        tawnyNvim = inputs.tawnyNvim;
+      specialArgs = { inherit inputs; };
+      pkgsFor = system: import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
       };
-
-      mkPkgs = system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-
-      mkHome =
-        {
-          system,
-          module,
-        }:
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = mkPkgs system;
-          extraSpecialArgs = specialArgs;
-          modules = [
-            module
-          ];
-        };
-
-      mkSwitchApp = pkgs: name: script: {
-        type = "app";
-        program = builtins.toString (pkgs.writeShellScript name script);
+      linuxHome = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor settings.systems.linux;
+        extraSpecialArgs = specialArgs;
+        modules = [ ./nix/home/linux.nix ];
       };
-
-      mkHomeEntry = system: module: {
-        inherit system module;
-      };
-
-      linuxPkgs = mkPkgs settings.systems.linux;
-      darwinPkgs = mkPkgs settings.systems.darwin;
     in
-    rec {
+    {
       homeConfigurations = {
-        "${settings.username}" = mkHome (mkHomeEntry settings.systems.linux ./nix/home/linux.nix);
-        "${settings.username}-linux" = mkHome (mkHomeEntry settings.systems.linux ./nix/home/linux.nix);
+        "${settings.username}" = linuxHome;
+        "${settings.username}-linux" = linuxHome;
       };
-
-      darwinConfigurations.${settings.hosts.darwin} = nix-darwin.lib.darwinSystem {
-        system = settings.systems.darwin;
-        pkgs = darwinPkgs;
-
+      darwinConfigurations.${settings.hosts.darwin} = inputs.nix-darwin.lib.darwinSystem {
+        pkgs = pkgsFor settings.systems.darwin;
         inherit specialArgs;
-
-        modules = [
-          ./nix/system/darwin.nix
-
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.users.${settings.username} = import ./nix/home/darwin.nix;
-          }
-        ];
+        modules = [ ./nix/system/darwin.nix ];
       };
-
-      apps.${settings.systems.linux} = {
-        switch = mkSwitchApp linuxPkgs "switch-linux" ''
-          ${
-            home-manager.packages.${settings.systems.linux}.home-manager
-          }/bin/home-manager switch --flake path:${self.outPath}#${settings.username}-linux \
-            --override-input nixvim-config path:${inputs.nixvim-config.outPath}
-        '';
-        default = apps.${settings.systems.linux}.switch;
-      };
-
-      apps.${settings.systems.darwin} = {
-        switch = mkSwitchApp darwinPkgs "switch-darwin" ''
-          sudo -H ${
-            nix-darwin.packages.${settings.systems.darwin}.darwin-rebuild
-          }/bin/darwin-rebuild switch --flake path:${self.outPath}#${settings.hosts.darwin} \
-            --override-input nixvim-config path:${inputs.nixvim-config.outPath}
-        '';
-        default = apps.${settings.systems.darwin}.switch;
-      };
+      apps = import ./nix/switch.nix { inherit inputs settings; };
     };
 }

@@ -1,4 +1,4 @@
-NIXVIM_CONFIG ?= $(HOME)/github/nixvim-config
+NIXVIM_CONFIG ?= $(HOME)/$(shell nix eval --raw --file "$(CURDIR)/nix/lib/settings.nix" paths.nixvimConfig)
 
 .PHONY: update switch
 

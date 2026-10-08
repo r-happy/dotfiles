@@ -1,13 +1,14 @@
 {
   lib,
   pkgs,
-  tawnyNvim,
+  inputs,
   ...
 }:
 
 let
   tawny = import ../lib/tawny.nix {
-    inherit lib tawnyNvim;
+    inherit lib;
+    tawnyNvim = inputs.tawnyNvim;
   };
 
   terminalSettings = {
@@ -15,7 +16,7 @@ let
     # fontFamily = "PlemolJP35 Console NF";
     fontFamily = "UDEV Gothic 35NFLG";
     # fontFamily = "Pending Mono NF";
-    fontSize = 10;
+    fontSize = 9;
   };
 
   terminalTheme = terminalSettings // tawny.theme;
@@ -146,14 +147,20 @@ let
       return config
     '';
 
-  mkGhosttyConfig = settings: ''
+  mkGhosttyConfig = theme: ''
     # Managed by Home Manager. Colors sourced from tawny.nvim.
-    ${builtins.readFile "${tawnyNvim}/ghostty/${
-      if tawny.terminalVariant == "light" then "color-light.ghostty" else "color.ghostty"
-    }"}
+    background = ${theme.background}
+    foreground = ${theme.foreground}
+    selection-background = ${theme.selectionBackground}
+    selection-foreground = ${theme.selectionForeground}
+    cursor-color = ${theme.cursorColor}
+    cursor-text = ${theme.cursorText}
+    ${lib.concatMapStringsSep "\n" (
+      index: "palette = ${toString index}=${builtins.elemAt theme.palette index}"
+    ) (lib.range 0 ((builtins.length theme.palette) - 1))}
 
-    font-family = ${settings.fontFamily}
-    font-size = ${toString settings.fontSize}
+    font-family = ${theme.fontFamily}
+    font-size = ${toString theme.fontSize}
 
     macos-option-as-alt = true
     window-decoration = auto
@@ -182,7 +189,7 @@ in
   // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     "Library/Application Support/com.mitchellh.ghostty/config" = {
       force = true;
-      text = mkGhosttyConfig terminalSettings;
+      text = mkGhosttyConfig terminalTheme;
     };
   };
 }

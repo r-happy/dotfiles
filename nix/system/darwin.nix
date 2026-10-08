@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 let
   settings = import ../lib/settings.nix;
@@ -8,7 +8,15 @@ in
 
   imports = [
     ./macos-defaults.nix
+    inputs.home-manager.darwinModules.home-manager
   ];
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs; };
+    users.${settings.username} = import ../home/darwin.nix;
+  };
 
   environment.shells = with pkgs; [ fish ];
 

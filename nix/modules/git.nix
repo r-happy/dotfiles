@@ -6,6 +6,12 @@ in
 {
   programs.git = {
     enable = true;
+    ignores = [
+      ".DS_Store"
+      "._*"
+      ".AppleDouble"
+      ".LSOverride"
+    ];
     settings = {
       user = {
         name = settings.git.name;

@@ -18,12 +18,12 @@
     };
 
     dock = {
-      autohide = true;
+      autohide = false;
       expose-group-apps = false;
       magnification = true;
       minimize-to-application = false;
       mru-spaces = false;
-      orientation = "bottom";
+      orientation = "right";
       show-recents = false;
       showAppExposeGestureEnabled = false;
       showMissionControlGestureEnabled = true;

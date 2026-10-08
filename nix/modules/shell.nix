@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
+let
+  settings = import ../lib/settings.nix;
+in
 {
   programs.fish = {
     enable = true;
@@ -10,28 +13,21 @@
       }
       {
         name = "fish-ghq-fzf";
-        src = pkgs.fetchFromGitHub {
-          owner = "yuys13";
-          repo = "fish-ghq-fzf";
-          rev = "main";
-          hash = "sha256-64y5nTQsdz8Qyn0VjEtfI4FvTMjF5XVYW7yTsrkIS30=";
-        };
+        src = inputs.fish-ghq-fzf;
       }
       {
         name = "fish-autols";
-        src = pkgs.fetchFromGitHub {
-          owner = "yuys13";
-          repo = "fish-autols";
-          rev = "main";
-          hash = "sha256-5yb6UjPu+QFsR+fe1rzYgSUczQ6olbFgILUQNTGvnf8=";
-        };
+        src = inputs.fish-autols;
       }
     ];
+    functions.memo = ''
+      set -l BASE_DIR "$HOME/${settings.paths.memo}"
+    '' + builtins.readFile ../../config/fish/functions/memo.fish;
+
     interactiveShellInit = ''
       fish_add_path ~/.nix-profile/bin
       fish_add_path /nix/var/nix/profiles/default/bin
       fish_add_path ~/.cargo/bin
-      ${builtins.readFile ../../config/fish/config.fish}
     '';
   };
 

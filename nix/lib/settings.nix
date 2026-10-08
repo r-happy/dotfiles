@@ -1,10 +1,19 @@
+let
+  repositories = "github";
+in
 {
   username = "rhappy";
+
+  paths = {
+    inherit repositories;
+    memo = "${repositories}/memo";
+    nixvimConfig = "${repositories}/nixvim-config";
+  };
 
   git = {
     name = "r-happy";
     email = "106812882+r-happy@users.noreply.github.com";
-    root = "~/github";
+    root = "~/${repositories}";
   };
 
   systems = {
