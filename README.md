@@ -4,7 +4,7 @@
 updates inputs; `make update` is the explicit lockfile-update step.
 
 This repository manages the personal environment: macOS/Linux settings, Fish,
-Git/SSH, Neovim, terminal themes, tmux, and direnv. Fish keeps its existing plugins and
+Git/SSH, Neovim, Emacs, terminal themes, tmux, and direnv. Fish keeps its existing plugins and
 PATH initialization. Shared command-line packages are limited to ripgrep, fd,
 ghq, fzf, eza, and Codex CLI, plus platform clipboard integration.
 Language toolchains, LSP servers, formatters, Docker clients, document tools, and

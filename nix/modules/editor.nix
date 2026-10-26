@@ -6,6 +6,7 @@
 
 {
   home.packages = [
+    pkgs.emacs
     inputs.nixvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
