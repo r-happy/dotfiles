@@ -6,7 +6,7 @@ updates inputs; `make update` is the explicit lockfile-update step.
 This repository manages the personal environment: macOS/Linux settings, Fish,
 Git/SSH, Neovim, Emacs, terminal themes, tmux, and direnv. Fish keeps its existing plugins and
 PATH initialization. Shared command-line packages are limited to ripgrep, fd,
-ghq, fzf, eza, and Codex CLI, plus platform clipboard integration.
+ghq, fzf, and eza, plus platform clipboard integration.
 Language toolchains, LSP servers, formatters, Docker clients, document tools, and
 CTF tools belong in each project's `flake.nix`.
 
@@ -17,23 +17,6 @@ Repository paths are defined in `nix/lib/settings.nix`, including the default
 Neovim checkout and memo directory. Terminal and tmux colors share the same
 theme data from tawny.nvim. Git's global ignore excludes macOS metadata such as
 `.DS_Store` and AppleDouble files.
-
-Codex CLI comes from [llm-agents.nix](https://github.com/numtide/llm-agents.nix),
-which updates packages daily, independently of the stable nixpkgs input.
-It keeps its own tested nixpkgs input; the Numtide binary cache is configured
-in `nixConfig` to avoid compiling Codex locally. Accept that flake configuration
-when Nix prompts for it.
-Run `make switch` to install it on macOS or Linux, then `codex` to sign in.
-To update the environment, including Codex, and apply it:
-
-```sh
-make update
-make switch
-codex --version
-```
-
-Codex updates depend on llm-agents.nix publishing the new version; they do not
-happen automatically when launching Codex.
 
 `make switch` sources Neovim from the local companion checkout at
 `~/github/nixvim-config` on both macOS and Linux. Clone it there first, or pass
