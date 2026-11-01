@@ -7,10 +7,10 @@ let
   };
   tawnyTheme = tawny.theme;
   color1 = builtins.elemAt tawnyTheme.palette 1;
-  color3 = builtins.elemAt tawnyTheme.palette 3;
   color8 = builtins.elemAt tawnyTheme.palette 8;
   surface0 = tawnyTheme.background;
   surface1 = tawnyTheme.selectionBackground;
+  accent = tawnyTheme.accent;
 in
 {
   programs.tmux = {
@@ -29,21 +29,20 @@ in
     ];
 
     extraConfig = builtins.readFile ../../config/tmux/tmux.conf + ''
-      # Muted Powerline segments using the tawny.nvim background colors.
+      # Flat status bar on the terminal background: text color only, with
+      # tawny reserved for the session name.
       set -g status-style "bg=${surface0},fg=${color8}"
       set -g status-left-length 50
       set -g status-right-length 80
-      set -g status-left \
-        "#[bg=${surface1},fg=${tawnyTheme.foreground},bold] #S #[bg=${surface0},fg=${surface1},nobold] "
-      set -g status-right \
-        "#[bg=${surface0},fg=${color8},nobold] #h #[bg=${surface0},fg=${surface1}]#[bg=${surface1},fg=${color8}] %Y-%m-%d  #[fg=${tawnyTheme.foreground}]%H:%M "
+      set -g status-left "#[fg=${accent},bold] #S #[fg=${color8},nobold] "
+      set -g status-right "#[fg=${color8}]#h  %Y-%m-%d %H:%M "
 
       set -g window-status-separator ""
       set -g window-status-format \
-        "#[bg=${surface0},fg=${color8},nobold] #{b:pane_current_path}  #I #W#F "
+        "#[fg=${color8},nobold] #{b:pane_current_path} #I #W#F "
       set -g window-status-current-format \
-        "#[bg=${surface1},fg=${surface0},nobold]#[fg=${color8}] #{b:pane_current_path} #[fg=${tawnyTheme.foreground},bold] #I #W#F #[bg=${surface0},fg=${surface1},nobold]"
-      set -g window-status-activity-style "bg=${surface0},fg=${color3}"
+        "#[fg=${tawnyTheme.foreground},bold] #{b:pane_current_path} #I #W#F #[nobold]"
+      set -g window-status-activity-style "bg=${surface0},fg=${accent}"
       set -g window-status-bell-style "bg=${surface0},fg=${color1}"
 
       set -g pane-border-style "fg=${surface1}"

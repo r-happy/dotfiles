@@ -9,6 +9,7 @@ let
     {
       background = colors."terminal.background";
       foreground = colors."terminal.foreground";
+      accent = colors."focusBorder";
       selectionBackground = colors."editor.selectionBackground";
       selectionForeground = colors."terminal.foreground";
       cursorColor = colors."terminalCursor.foreground";
