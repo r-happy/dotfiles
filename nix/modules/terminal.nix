@@ -172,9 +172,9 @@ let
     keybind = ¥=text:\\
     # font-thicken = true
     # font-thicken-strength = 60
-    # background-opacity = 0.9
+    background-opacity = 0.9
     # background-blur = true
-    # macos-titlebar-style = tabs
+    macos-titlebar-style = tabs
   '';
 in
 {
