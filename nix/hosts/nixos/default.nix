@@ -22,19 +22,27 @@ in
   console.keyMap = "jp106";
   services.xserver.xkb.layout = "jp";
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
+  # GDM shows a session picker (niri / GNOME) on the login screen.
+  # GNOME is kept as a fallback desktop; remove it once niri is settled.
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
+  services.printing.enable = true;
+
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
   };
 
+  programs.firefox.enable = true;
+
   users.users.${settings.username} = {
     isNormalUser = true;
+    description = settings.username;
     extraGroups = [
       "wheel"
       "networkmanager"
