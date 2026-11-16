@@ -23,6 +23,7 @@ in
 
   hosts = {
     darwin = "ReinoMacBook-Pro";
+    nixos = "nixos";
   };
 
   homes = {

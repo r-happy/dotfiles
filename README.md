@@ -3,6 +3,12 @@
 `make switch` applies the configuration for the current platform. It never
 updates inputs; `make update` is the explicit lockfile-update step.
 
+On NixOS, `make switch` runs `nixos-rebuild` for `nixosConfigurations.nixos`
+(niri, fcitx5-mozc, fonts, and this Home Manager setup). The host lives in
+`nix/hosts/nixos/`; `hardware-configuration.nix` there is copied from
+`/etc/nixos/` on the machine. The first run needs
+`NIX_CONFIG="experimental-features = nix-command flakes" make switch`.
+
 This repository manages the personal environment: macOS/Linux settings, Fish,
 Git/SSH, Neovim, Emacs, terminal themes, tmux, and direnv. Fish keeps its existing plugins and
 PATH initialization. Shared command-line packages are limited to ripgrep, fd,
