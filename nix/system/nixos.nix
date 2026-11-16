@@ -28,7 +28,6 @@ in
 
   # niri (scrollable-tiling Wayland compositor)
   programs.niri.enable = true;
-  programs.waybar.enable = true;
   security.polkit.enable = true;
   security.pam.services.swaylock = { };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -42,11 +41,29 @@ in
   };
 
   fonts.packages = with pkgs; [
+    plemoljp
+    plemoljp-nf
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     noto-fonts-color-emoji
-    plemoljp-nf
   ];
+
+  # PlemolJP everywhere; Noto covers glyphs it lacks.
+  fonts.fontconfig.defaultFonts = {
+    sansSerif = [
+      "PlemolJP"
+      "Noto Sans CJK JP"
+    ];
+    serif = [
+      "PlemolJP"
+      "Noto Serif CJK JP"
+    ];
+    monospace = [
+      "PlemolJP35 Console NF"
+      "PlemolJP Console"
+    ];
+    emoji = [ "Noto Color Emoji" ];
+  };
 
   environment.systemPackages = with pkgs; [
     git
