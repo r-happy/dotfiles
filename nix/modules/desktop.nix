@@ -24,7 +24,13 @@ in
     swaybg
     brightnessctl
     playerctl
+    # GUI settings that work outside GNOME
+    pavucontrol
+    networkmanagerapplet
   ];
+
+  # Wi-Fi icon in the waybar tray.
+  services.network-manager-applet.enable = true;
 
   xdg.configFile."niri/config.kdl".text =
     builtins.replaceStrings
@@ -68,6 +74,7 @@ in
         format-ethernet = "eth";
         format-disconnected = "offline";
         tooltip-format = "{ifname} {ipaddr}";
+        on-click = "nm-connection-editor";
       };
       backlight = {
         format = "bri {percent}%";
