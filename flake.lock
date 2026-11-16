@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "dms-dankscale": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793810291,
+        "narHash": "sha256-YyFdgds1XBBVo4RYJTpK6z/U35vyEV01vYFoyTNM98M=",
+        "owner": "dwright134",
+        "repo": "dms-dankscale",
+        "rev": "fb21277e45a2c77eeb53de48a2008f07ea6892aa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dwright134",
+        "repo": "dms-dankscale",
+        "type": "github"
+      }
+    },
     "fish-autols": {
       "flake": false,
       "locked": {
@@ -71,6 +87,27 @@
       "original": {
         "owner": "nix-community",
         "ref": "release-26.05",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "home-manager_2": {
+      "inputs": {
+        "nixpkgs": [
+          "zen-browser",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793193205,
+        "narHash": "sha256-X6xa6sGA7RnJQuZGbFMC+K+KToWAlBDCCjJXfTwEPsw=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "095fef2f265c3c0da4fe315efba8f8a04495ab34",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
       }
@@ -177,13 +214,15 @@
     },
     "root": {
       "inputs": {
+        "dms-dankscale": "dms-dankscale",
         "fish-autols": "fish-autols",
         "fish-ghq-fzf": "fish-ghq-fzf",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixvim-config": "nixvim-config",
-        "tawnyNvim": "tawnyNvim"
+        "tawnyNvim": "tawnyNvim",
+        "zen-browser": "zen-browser"
       }
     },
     "systems": {
@@ -232,6 +271,27 @@
       "original": {
         "owner": "vapourismo",
         "repo": "terminals.nvim",
+        "type": "github"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "home-manager": "home-manager_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794805570,
+        "narHash": "sha256-sG0P1rHWgbPQIeR+peNmapCWQKf0nauyDl500JhX9Qo=",
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
+        "rev": "cb44a9fc1faa18c55dde38a8338f6d46fa2bc6de",
+        "type": "github"
+      },
+      "original": {
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }

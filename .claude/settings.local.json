@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git status *)",
+      "Bash(git stash *)",
+      "Bash(git push *)",
+      "Bash(git rebase *)",
+      "Bash(niri --version)",
+      "Bash(niri msg *)",
+      "Bash(nix-store -q --references /nix/store/xgs49wavsb8ixmz12lir9b08zqxzybcd-waybar-0.15.0)",
+      "Bash(ldd /nix/store/xgs49wavsb8ixmz12lir9b08zqxzybcd-waybar-0.15.0/bin/waybar)",
+      "Bash(nix eval *)",
+      "Bash(nix show-derivation *)",
+      "Bash(python3 -c ' *)",
+      "Bash(man -P cat waybar-bluetooth)",
+      "Bash(man -P cat waybar-mpris)",
+      "Read(//home/rhappy/.config/niri/**)",
+      "Read(//home/rhappy/.config/niri/dms/**)",
+      "Read(//home/rhappy/.local/state/DankMaterialShell/**)"
+    ]
+  }
+}

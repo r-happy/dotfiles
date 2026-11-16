@@ -8,6 +8,7 @@ in
     ./common.nix
     ../packages/linux.nix
     ../modules/desktop.nix
+    ../modules/dms.nix
   ];
 
   home.homeDirectory = settings.homes.linux;

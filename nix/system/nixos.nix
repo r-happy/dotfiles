@@ -32,6 +32,38 @@ in
   security.pam.services.swaylock = { };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  # DMS (Dank Material Shell): bar, launcher, notifications and widgets for niri.
+  # Starts itself via its own systemd user service (graphical-session.target).
+  # Niri-side integration (environment vars, layer-rule) lives in
+  # config/niri/config.kdl; DMS's own settings, theme and wallpaper are pinned in
+  # nix/modules/dms.nix. `dms setup` is not needed.
+  programs.dms-shell = {
+    enable = true;
+    # Installed to /etc/xdg/quickshell/dms-plugins/, which DMS scans alongside
+    # ~/.config/DankMaterialShell/plugins. Enabled, and placed in the bar, in
+    # nix/modules/dms.nix.
+    plugins.Dankscale.src = inputs.dms-dankscale;
+    enableSystemMonitoring = true;
+    enableVPN = true;
+    enableDynamicTheming = true;
+    enableAudioWavelength = true;
+    enableCalendarEvents = true;
+  };
+
+  # Bluetooth (status shown in DMS; blueman-manager for GUI management).
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
+  # Tailscale. Run `sudo tailscale up` once to join the tailnet; the state then
+  # lives in /var/lib/tailscale, outside this repo. Set
+  # useRoutingFeatures = "client" if subnet routes or an exit node are needed.
+  services.tailscale.enable = true;
+  # Lets the login user drive `tailscale up/down/set` without root, which is
+  # what the Dankscale bar widget needs. Applied by the tailscaled-set oneshot;
+  # it only takes effect once the node is logged in.
+  services.tailscale.extraSetFlags = [ "--operator=${settings.username}" ];
+
   # Japanese input
   i18n.inputMethod = {
     enable = true;
@@ -41,6 +73,7 @@ in
   };
 
   fonts.packages = with pkgs; [
+    ibm-plex
     plemoljp
     plemoljp-nf
     noto-fonts-cjk-sans
@@ -48,14 +81,17 @@ in
     noto-fonts-color-emoji
   ];
 
-  # PlemolJP everywhere; Noto covers glyphs it lacks.
+  # IBM Plex Sans JP for the UI, PlemolJP for the terminal. PlemolJP is built
+  # from IBM Plex Mono blended with IBM Plex Sans JP, so the proportional and
+  # the monospace side are the same design, with Japanese drawn by the same
+  # hand. Noto CJK still covers the glyphs Plex JP lacks.
   fonts.fontconfig.defaultFonts = {
     sansSerif = [
-      "PlemolJP"
+      "IBM Plex Sans JP"
       "Noto Sans CJK JP"
     ];
     serif = [
-      "PlemolJP"
+      "IBM Plex Serif"
       "Noto Serif CJK JP"
     ];
     monospace = [
@@ -69,10 +105,8 @@ in
     git
     gnumake
     alacritty
-    fuzzel
     swaylock
     swayidle
-    mako
     swaybg
     xwayland-satellite
   ];

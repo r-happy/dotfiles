@@ -13,6 +13,13 @@
       flake = false;
     };
 
+    # Tailscale widget for the DMS bar. Wired up in nix/system/nixos.nix
+    # (programs.dms-shell.plugins) and enabled in nix/modules/dms.nix.
+    dms-dankscale = {
+      url = "github:dwright134/dms-dankscale";
+      flake = false;
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,6 +37,11 @@
     tawnyNvim = {
       url = "github:r-happy/tawny.nvim";
       flake = false;
+    };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

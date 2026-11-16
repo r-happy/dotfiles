@@ -20,6 +20,24 @@ let
       tabActiveForeground = colors."tab.activeForeground";
       tabInactiveBackground = colors."tab.inactiveBackground";
       tabInactiveForeground = colors."tab.inactiveForeground";
+
+      # Material-style surface ramp and semantic colors, for shells that expect
+      # one (DMS, see nix/modules/dms.nix). Plain renames of tawny's own keys so
+      # the shell can't drift from the editor and the terminal.
+      accentText = colors."button.foreground";
+      accentContainer = colors."button.secondaryBackground";
+      secondary = colors."terminal.ansiYellow";
+      surfaceContainer = colors."sideBar.background";
+      surfaceContainerHigh = colors."editorWidget.background";
+      surfaceContainerHighest = colors."tab.hoverBackground";
+      surfaceVariant = colors."widget.border";
+      surfaceVariantText = colors."descriptionForeground";
+      outline = colors."disabledForeground";
+      outlineVariant = colors."widget.border";
+      error = colors."editorError.foreground";
+      warning = colors."editorWarning.foreground";
+      info = colors."editorInfo.foreground";
+      success = colors."gitDecoration.addedResourceForeground";
       palette = [
         colors."terminal.ansiBlack"
         colors."terminal.ansiRed"

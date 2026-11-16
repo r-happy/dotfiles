@@ -38,6 +38,7 @@ let
       font_family ${theme.fontFamily}
       font_size ${toString theme.fontSize}
 
+      background_opacity 0.8
       background ${theme.background}
       foreground ${theme.foreground}
       selection_background ${theme.selectionBackground}
