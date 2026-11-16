@@ -8,6 +8,9 @@ On NixOS, `make switch` runs `nixos-rebuild` for `nixosConfigurations.nixos`
 `nix/hosts/nixos/`; `hardware-configuration.nix` there is copied from
 `/etc/nixos/` on the machine. The first run needs
 `NIX_CONFIG="experimental-features = nix-command flakes" make switch`.
+The niri config is `config/niri/config.kdl` (colors and the wallpaper path are
+filled in from tawny.nvim and `assets/wallpaper.jpg`); waybar, fuzzel, mako and
+GTK live in `nix/modules/desktop.nix`.
 
 This repository manages the personal environment: macOS/Linux settings, Fish,
 Git/SSH, Neovim, Emacs, terminal themes, tmux, and direnv. Fish keeps its existing plugins and

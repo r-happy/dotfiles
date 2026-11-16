@@ -19,8 +19,11 @@ in
 
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "ja_JP.UTF-8";
-  console.keyMap = "jp106";
-  services.xserver.xkb.layout = "jp";
+  services.xserver.xkb = {
+    layout = "jp";
+    options = "ctrl:nocaps";
+  };
+  console.useXkbConfig = true;
 
   # Login with greetd + tuigreet. niri did not start from GDM on this machine
   # (grey screen), while `niri-session` from a TTY works.
