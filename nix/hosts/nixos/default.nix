@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   settings = import ../../lib/settings.nix;
@@ -22,9 +22,25 @@ in
   console.keyMap = "jp106";
   services.xserver.xkb.layout = "jp";
 
-  # GDM shows a session picker (niri / GNOME) on the login screen.
+  # Login with greetd + tuigreet. niri did not start from GDM on this machine
+  # (grey screen), while `niri-session` from a TTY works.
+  # F3 on the login screen picks the session (niri / GNOME).
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = builtins.concatStringsSep " " [
+        "${pkgs.tuigreet}/bin/tuigreet"
+        "--time"
+        "--remember"
+        "--remember-session"
+        "--sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions"
+        "--cmd niri-session"
+      ];
+      user = "greeter";
+    };
+  };
+
   # GNOME is kept as a fallback desktop; remove it once niri is settled.
-  services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
   services.printing.enable = true;
