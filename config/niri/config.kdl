@@ -11,7 +11,9 @@
 input {
     keyboard {
         xkb {
-            layout "jp"
+            // JIS first, US second. Mod+Space toggles (niri-layout-toggle),
+            // which also switches the matching fcitx5 group.
+            layout "jp,us"
             options "ctrl:nocaps"
 
             // You can set rules, model, layout, variant and options.
@@ -80,6 +82,8 @@ input {
 // Find more information on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
+// Mod+Alt+Up/Down/0 changes the scale until niri restarts. To keep a scale,
+// get the name from `niri msg outputs`, remove "/-" and set "scale" below.
 /-output "eDP-1" {
     // Uncomment this line to disable this output.
     // off
@@ -277,6 +281,9 @@ spawn-at-startup "waybar"
 
 // Wallpaper (managed by the dotfiles repo).
 spawn-at-startup "swaybg" "-m" "fill" "-i" "@wallpaper@"
+
+// Japanese input (fcitx5 + Mozc). --replace keeps it single if autostart also runs it.
+spawn-at-startup "fcitx5" "-d" "--replace"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -613,8 +620,13 @@ binds {
     // a matching layout switch hotkey configured in xkb options above.
     // Having both at once on the same hotkey will break the switching,
     // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
-    // Mod+Space       { switch-layout "next"; }
-    // Mod+Shift+Space { switch-layout "prev"; }
+    // JIS <-> US. Also switches the fcitx5 group so Mozc follows the layout.
+    Mod+Space hotkey-overlay-title="Toggle JIS / US layout" { spawn "niri-layout-toggle"; }
+
+    // Display scale of the focused output (runtime only; see the output block to persist).
+    Mod+Alt+Up   hotkey-overlay-title="Scale up"    { spawn "niri-scale" "up"; }
+    Mod+Alt+Down hotkey-overlay-title="Scale down"  { spawn "niri-scale" "down"; }
+    Mod+Alt+0    hotkey-overlay-title="Scale reset" { spawn "niri-scale" "reset"; }
 
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
