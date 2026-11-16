@@ -95,7 +95,7 @@ output "eDP-1" {
     // for the resolution.
     // If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "1920x1080@120.030"
+    mode "1920x1200@59.950"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
     scale 1
@@ -113,7 +113,17 @@ output "eDP-1" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=1280 y=0
+    // Laptop sits to the right of the Dell (3072 logical px wide), bottom-aligned
+    // with it: 1728 - 1200 = 528.
+    position x=3072 y=528
+}
+
+// Dell S2721QS: 3840x2160 at scale 1.25 -> 3072x1728 logical. On the left.
+output "DP-3" {
+    mode "3840x2160@60.000"
+    scale 1.25
+    transform "normal"
+    position x=0 y=0
 }
 
 // Settings that influence how windows are positioned and sized.
