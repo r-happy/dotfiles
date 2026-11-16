@@ -52,6 +52,13 @@
         "${settings.username}" = linuxHome;
         "${settings.username}-linux" = linuxHome;
       };
+      nixosConfigurations.${settings.hosts.nixos} = inputs.nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        modules = [
+          (./nix/hosts + "/${settings.hosts.nixos}")
+          ./nix/system/nixos.nix
+        ];
+      };
       darwinConfigurations.${settings.hosts.darwin} = inputs.nix-darwin.lib.darwinSystem {
         pkgs = pkgsFor settings.systems.darwin;
         inherit specialArgs;
