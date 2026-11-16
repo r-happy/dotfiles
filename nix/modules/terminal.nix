@@ -150,6 +150,11 @@ let
       return config
     '';
 
+  # Ghostty is the default terminal on both platforms: Mod+T and $TERMINAL
+  # point at it on Linux (config/niri/config.kdl, nix/system/nixos.nix), and it
+  # is the terminal app on macOS. The macos-* keys parse on Linux too
+  # (`ghostty +validate-config` accepts them) but do nothing there, so they sit
+  # in a macOS-only block rather than in the file both platforms read.
   mkGhosttyConfig = theme: ''
     # Managed by Home Manager. Colors sourced from tawny.nvim.
     background = ${theme.background}
@@ -165,18 +170,30 @@ let
     font-family = ${theme.fontFamily}
     font-size = ${toString theme.fontSize}
 
-    macos-option-as-alt = true
+    # "auto" follows the compositor: niri sets prefer-no-csd, so it draws the
+    # border itself there, while macOS keeps the native title bar.
     window-decoration = auto
     scrollbar = never
     bell-features = no-system
-    macos-titlebar-proxy-icon = hidden
     keybind = ¥=text:\\
     # font-thicken = true
     # font-thicken-strength = 60
     background-opacity = 0.9
     # background-blur = true
-    macos-titlebar-style = tabs
+    ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
+      macos-option-as-alt = true
+      macos-titlebar-proxy-icon = hidden
+      macos-titlebar-style = tabs
+    ''}
   '';
+
+  # Ghostty looks for its config under Application Support on macOS and under
+  # XDG_CONFIG_HOME everywhere else, so only the path differs per platform.
+  ghosttyConfigPath =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      "Library/Application Support/com.mitchellh.ghostty/config"
+    else
+      ".config/ghostty/config";
 in
 {
   home.file = {
@@ -188,9 +205,7 @@ in
       force = true;
       text = mkWezTermConfig terminalTheme;
     };
-  }
-  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-    "Library/Application Support/com.mitchellh.ghostty/config" = {
+    ${ghosttyConfigPath} = {
       force = true;
       text = mkGhosttyConfig terminalTheme;
     };

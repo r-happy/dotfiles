@@ -79,6 +79,10 @@ in
     layoutToggle
     scaleStep
     libnotify
+    # Default terminal: Mod+T in config/niri/config.kdl and $TERMINAL in
+    # nix/system/nixos.nix both point here. Its config comes from
+    # nix/modules/terminal.nix, kitty's from the same place.
+    ghostty
     kitty
     brightnessctl
     playerctl

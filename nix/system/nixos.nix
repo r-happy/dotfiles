@@ -31,6 +31,11 @@ in
   security.polkit.enable = true;
   security.pam.services.swaylock = { };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # Default terminal for anything that launches one on its own: DMS runs
+  # Terminal=true desktop entries and its updater through $TERMINAL (falling
+  # back to xterm), and Mod+T spawns the same binary from
+  # config/niri/config.kdl. The package is in nix/modules/desktop.nix.
+  environment.sessionVariables.TERMINAL = "ghostty";
 
   # DMS (Dank Material Shell): bar, launcher, notifications and widgets for niri.
   # Starts itself via its own systemd user service (graphical-session.target).
@@ -63,6 +68,22 @@ in
   # what the Dankscale bar widget needs. Applied by the tailscaled-set oneshot;
   # it only takes effect once the node is logged in.
   services.tailscale.extraSetFlags = [ "--operator=${settings.username}" ];
+
+  # Docker Engine. Linux-only on purpose: the daemon is a Linux service, and on
+  # macOS it would mean a VM (Docker Desktop / colima), so nix/system/darwin.nix
+  # stays without it. This is the engine and the `docker` CLI only — per-project
+  # clients, compose files and language toolchains stay in each project's
+  # flake.nix.
+  #
+  # The login user is in the "docker" group (nix/hosts/nixos/default.nix) so
+  # `docker` works without sudo; that group is root-equivalent, which is the
+  # usual trade for a rootful daemon.
+  virtualisation.docker = {
+    enable = true;
+    # Weekly `docker system prune`, so dangling images and build cache do not
+    # grow unbounded in /var/lib/docker.
+    autoPrune.enable = true;
+  };
 
   # Japanese input
   i18n.inputMethod = {

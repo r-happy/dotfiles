@@ -65,6 +65,9 @@ in
     extraGroups = [
       "wheel"
       "networkmanager"
+      # Talks to the Docker daemon socket without sudo
+      # (virtualisation.docker in nix/system/nixos.nix).
+      "docker"
     ];
   };
 

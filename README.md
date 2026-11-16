@@ -11,23 +11,31 @@ On NixOS, `make switch` runs `nixos-rebuild` for `nixosConfigurations.nixos`
 The niri config is `config/niri/config.kdl` (colors are filled in from
 tawny.nvim); input, keybind helpers and GTK live in `nix/modules/desktop.nix`.
 The bar, launcher and notifications come from DMS (Dank Material Shell), whose
-settings, tawny theme and wallpaper (`assets/wallpaper.jpg`) are pinned in
-`nix/modules/dms.nix` — DMS sees those files read-only, so its settings window
-offers copy buttons to paste changes back into Nix.
+settings, tawny theme and wallpapers are pinned in `nix/modules/dms.nix` — DMS
+sees those files read-only, so its settings window offers copy buttons to paste
+changes back into Nix. The wallpapers are the whole of `assets/wallpapers/`,
+cycled in filename order every 30 minutes (`dms ipc call wallpaper next` steps
+by hand); each session starts from the first one again.
 
 This repository manages the personal environment: macOS/Linux settings, Fish,
 Git/SSH, Neovim, Emacs, terminal themes, tmux, and direnv. Fish keeps its existing plugins and
 PATH initialization. Shared command-line packages are limited to ripgrep, fd,
 ghq, fzf, and eza, plus platform clipboard integration.
-Language toolchains, LSP servers, formatters, Docker clients, document tools, and
-CTF tools belong in each project's `flake.nix`.
+Language toolchains, LSP servers, formatters, document tools, and CTF tools
+belong in each project's `flake.nix`. The Docker engine is the exception: a
+daemon cannot live in a project flake, so `nix/system/nixos.nix` enables
+`virtualisation.docker` (with the login user in the `docker` group). That is
+NixOS-only — on macOS an engine would mean a VM, so nothing is installed there.
 
 Fish settings live in `nix/modules/shell.nix`; the `memo` function body lives in
 `config/fish/functions/memo.fish`. Platform switch commands live in `nix/switch.nix`.
 Fish plugins update through `make update`; the two custom plugins are flake inputs.
 Repository paths are defined in `nix/lib/settings.nix`, including the default
 Neovim checkout and memo directory. Terminal and tmux colors share the same
-theme data from tawny.nvim. Git's global ignore excludes macOS metadata such as
+theme data from tawny.nvim. Ghostty is the default terminal:
+`nix/modules/terminal.nix` writes its config on both platforms, and on NixOS
+Mod+T and `$TERMINAL` point at it (kitty and WezTerm keep their themed configs
+as alternatives). Git's global ignore excludes macOS metadata such as
 `.DS_Store` and AppleDouble files.
 
 `make switch` sources Neovim from the local companion checkout at

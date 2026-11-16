@@ -27,7 +27,12 @@ let
     tawnyNvim = inputs.tawnyNvim;
   };
 
-  wallpaper = ../../assets/wallpaper.jpg;
+  # The directory, not a single file: DMS cycles by listing the directory the
+  # current wallpaper sits in (Services/WallpaperCyclingService.qml), so all of
+  # them have to land next to each other in one store path. They are picked in
+  # sorted order, which is what the numeric prefixes fix.
+  wallpapers = ../../assets/wallpapers;
+  firstWallpaper = "${wallpapers}/01-bamboo-gate.jpg";
 
   # Set to false to let DMS persist its own session.json again (brightness per
   # device, do-not-disturb, pinned apps, tray order, light/dark toggle). The
@@ -202,7 +207,15 @@ in
       isLightMode = false;
       # DMS draws the wallpaper itself on its background layer, which
       # config/niri/config.kdl puts inside the overview backdrop.
-      wallpaperPath = "${wallpaper}";
+      wallpaperPath = firstWallpaper;
+      # Rotates through the rest of assets/wallpapers every 30 minutes, with
+      # DMS's default fade transition. session.json being read-only here, the
+      # switch only lives in DMS's memory: every session starts again at
+      # wallpaperPath above. `dms ipc call wallpaper next` (and prev) steps
+      # through them by hand.
+      wallpaperCyclingEnabled = true;
+      wallpaperCyclingMode = "interval";
+      wallpaperCyclingInterval = 1800;
       # 長野市. Resolved through open-meteo's geocoder, which answers
       # name "Nagano", 36.65/138.18333 — that name is what the bar shows.
       #
