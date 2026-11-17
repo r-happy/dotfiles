@@ -29,13 +29,26 @@ in
   # niri (scrollable-tiling Wayland compositor)
   programs.niri.enable = true;
   security.polkit.enable = true;
-  security.pam.services.swaylock = { };
+  # PAM stack for the DMS lock screen. DMS's Pam.qml asks for /etc/pam.d/dankshell
+  # and falls back to /etc/pam.d/login only if that file is missing, so the name
+  # is not ours to choose. An empty attrset is the standard NixOS stack
+  # (pam_unix via unix_chkpwd), which is all the password field needs.
+  security.pam.services.dankshell = { };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # Default terminal for anything that launches one on its own: DMS runs
   # Terminal=true desktop entries and its updater through $TERMINAL (falling
   # back to xterm), and Mod+T spawns the same binary from
   # config/niri/config.kdl. The package is in nix/modules/desktop.nix.
   environment.sessionVariables.TERMINAL = "ghostty";
+  # Stem darkening. IBM Plex and PlemolJP are OTFs (CFF outlines), and FreeType
+  # draws CFF stems at their mathematical width, which lands thinner than macOS
+  # renders the same outline -- macOS emboldens as it rasterizes. Thin strokes
+  # are exactly what reads as grain, and light-on-dark makes it worse, so turn
+  # FreeType's emboldening on for both the CFF and the autofit rasterizers.
+  # Double negative is FreeType's own naming: no-stem-darkening=0 means on.
+  # See fonts.fontconfig in this file for the rest of the text rendering setup.
+  environment.sessionVariables.FREETYPE_PROPERTIES =
+    "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
 
   # DMS (Dank Material Shell): bar, launcher, notifications and widgets for niri.
   # Starts itself via its own systemd user service (graphical-session.target).
@@ -102,6 +115,31 @@ in
     noto-fonts-color-emoji
   ];
 
+  # Text rendering. eDP-1 is a Sharp LQ134N1: 13.4" 1920x1200 = 168 DPI, driven
+  # at scale 1, so a glyph gets far fewer pixels than on a Retina panel and the
+  # antialiasing shows. Two knobs claw that back:
+  #
+  #   subpixel.rgba "rgb" - the panel is an RGB vertical-stripe LCD, so each
+  #     pixel is three addressable stripes. Sampling them independently triples
+  #     the horizontal resolution of the rasterizer. NixOS defaults this to
+  #     "none" (grayscale, what macOS does) because it is wrong on OLED and on
+  #     rotated panels; neither applies here. lcdfilter "default" (FIR5) is what
+  #     keeps the extra resolution from turning into colour fringes.
+  #
+  #   hinting slight - vertical-only grid fitting. Keeps stems on pixel
+  #     boundaries without distorting glyph shapes the way "full" does. This is
+  #     already the NixOS default; pinned here so the three settings read
+  #     together.
+  #
+  # The matching stem-darkening setting is FREETYPE_PROPERTIES, up with the
+  # other session variables.
+  fonts.fontconfig = {
+    subpixel.rgba = "rgb";
+    subpixel.lcdfilter = "default";
+    hinting.enable = true;
+    hinting.style = "slight";
+  };
+
   # IBM Plex Sans JP for the UI, PlemolJP for the terminal. PlemolJP is built
   # from IBM Plex Mono blended with IBM Plex Sans JP, so the proportional and
   # the monospace side are the same design, with Japanese drawn by the same
@@ -126,8 +164,8 @@ in
     git
     gnumake
     alacritty
-    swaylock
-    swayidle
+    # No swaylock/swayidle: DMS draws the lock screen itself and runs its own
+    # idle monitor (Services/IdleService.qml, timeouts in nix/modules/dms.nix).
     swaybg
     xwayland-satellite
   ];

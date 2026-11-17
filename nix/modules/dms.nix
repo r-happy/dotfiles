@@ -119,6 +119,18 @@ in
       blurBorderColor = "primary";
       blurBorderOpacity = 0.35;
 
+      # Auto-lock on idle, in seconds, both values from the dropdown in
+      # Settings -> Power & Sleep. DMS watches ext-idle-notify itself
+      # (Services/IdleService.qml) and raises its own lock screen, which is why
+      # there is no swayidle in nix/system/nixos.nix. It respects idle
+      # inhibitors, so a fullscreen video does not lock mid-playback, and
+      # fadeToLockEnabled (default) dims the screen 5s before the lock lands.
+      #
+      # The sibling timeouts stay at their default 0, i.e. off: monitor-off is
+      # left to the panel, and suspend to logind's lid handling.
+      acLockTimeout = 900;
+      batteryLockTimeout = 300;
+
       use24HourClock = true;
       # Weather location is fixed in session.weatherLocation below, so DMS does
       # not look the machine up over ip-api.com on every start.

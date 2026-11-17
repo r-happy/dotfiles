@@ -18,7 +18,9 @@
       "Bash(man -P cat waybar-mpris)",
       "Read(//home/rhappy/.config/niri/**)",
       "Read(//home/rhappy/.config/niri/dms/**)",
-      "Read(//home/rhappy/.local/state/DankMaterialShell/**)"
+      "Read(//home/rhappy/.local/state/DankMaterialShell/**)",
+      "Bash(fc-match --verbose sans)",
+      "Bash(grep -i \"source$\")"
     ]
   }
 }

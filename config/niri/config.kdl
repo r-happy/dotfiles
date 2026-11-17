@@ -438,7 +438,12 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
     Mod+D hotkey-overlay-title="Run an Application: DMS launcher" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    // DMS owns the lock screen: an ext-session-lock surface drawn by the shell
+    // itself, so it carries the same Tawny colors and wallpaper as the bar.
+    // The idle timeouts in nix/modules/dms.nix raise the same surface from
+    // inside the shell, and `loginctl lock-session` reaches it too (DMS's
+    // loginctlLockIntegration, on by default), so this is the only bind needed.
+    Super+Alt+L hotkey-overlay-title="Lock the Screen: DMS" { spawn "dms" "ipc" "call" "lock" "lock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
